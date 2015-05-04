@@ -4,3 +4,18 @@
 
 # Executables
 *.exe
+:
+# Build Files
+Makefile
+autom4te.cache
+build-aux
+aclocal.m4
+config.*
+configure
+COPYING
+INSTALL
+Makefile.in
+stamp-h1
+.deps
+.dirstamp
+
