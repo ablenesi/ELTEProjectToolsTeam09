@@ -1,24 +1,21 @@
-package view;
+package view.auth;
 
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
+
+
 
 import model.ViewConstraints;
-import controller.LoginController;
+import controller.auth.LoginController;
 /**
  * 
  * @author Blénesi Attila
@@ -26,6 +23,11 @@ import controller.LoginController;
  */
 public class LoginPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JLabel singInLabel;
 	private JLabel usernameLable;
 	private JLabel passwordLable;
@@ -38,10 +40,6 @@ public class LoginPanel extends JPanel {
 	
 	private GridBagConstraints c;
 	
-	private final static int CENTER_PANEL_WIDTH = 0;
-	private final static int CENTER_PANEL_HEIGTH = 200;
-	private final static int ROW_HEIGHT = 1;
-	
 	public LoginPanel(LoginController controller){				
 		initializeComponents(controller);
 		addComponents();
@@ -52,25 +50,25 @@ public class LoginPanel extends JPanel {
 		usernameLable = new JLabel("Email or username:");
 		passwordLable = new JLabel("Password:");
 		
-		singInLabel.setFont(ViewConstraints.TITLE_LABLE);
-		usernameLable.setFont(ViewConstraints.BASIC_LABLE);
-		passwordLable.setFont(ViewConstraints.BASIC_LABLE);
+		singInLabel.setFont(ViewConstraints.TITLE_LABLE_FONT);
+		usernameLable.setFont(ViewConstraints.BASIC_LABLE_FONT);
+		passwordLable.setFont(ViewConstraints.BASIC_LABLE_FONT);
 		
 		usernameFiled = new JTextField();
 		passwordFiled = new JPasswordField();
 		
-		usernameFiled.setFont(ViewConstraints.BASIC_LABLE);
-		passwordFiled.setFont(ViewConstraints.BASIC_LABLE);
+		usernameFiled.setFont(ViewConstraints.BASIC_LABLE_FONT);
+		passwordFiled.setFont(ViewConstraints.BASIC_LABLE_FONT);
 		
-		loginButton = new JButton(ViewConstraints.LOGIN_BUTTON);
-		registerButton = new JButton(ViewConstraints.REGISTER_BUTTON);
+		loginButton = new JButton(ViewConstraints.LOGIN_BUTTON_TEXT);
+		registerButton = new JButton(ViewConstraints.REGISTER_BUTTON_TEXT);
 		
 		loginButton.addActionListener(loginController);
 		registerButton.addActionListener(loginController);
 		
 		c = new GridBagConstraints();		
 		this.setLayout(new GridBagLayout());
-		this.setPreferredSize(new Dimension(ViewConstraints.RIGHT_PANEL_WIDTH,ViewConstraints.RIGHT_PANEL_HEIGHT));
+		this.setPreferredSize(new Dimension(ViewConstraints.RIGHT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
 	}
 	
 	private void addComponents(){

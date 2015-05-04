@@ -1,16 +1,12 @@
 package controller;
 
-
-import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.AbstractDocument.Content;
-
+import controller.auth.LoginController;
+import controller.auth.RegisterController;
 import model.User;
-import view.LoginPanel;
 import view.MainFrame;
-import view.RegisterPanel;
 
 public class Controller {
 	private MainFrame mainFrame;	
@@ -38,15 +34,23 @@ public class Controller {
 	}
 
 	public void loadLogin(){		
-		mainFrame.show("LOGIN");
+		mainFrame.showRightPanel("LOGIN");
 	}
 	
 	public void loadRegister(){
-		mainFrame.show("REGISTER");
+		mainFrame.showRightPanel("REGISTER");
+	}
+	
+	public void loadWelcome(){
+		mainFrame.showLeftPanel("WELCOME");
 	}
 	
 	public void loadUserBoard(){		
-		mainFrame.show("USER_BOARD");
+		mainFrame.showRightPanel("USER_BOARD");
+	}
+	
+	public void loadMessageBoard(User user){
+		mainFrame.showLeftPanel("MESSAGE_BOARD");		
 	}
 
 	public LoginController getLoginController() {
@@ -63,6 +67,6 @@ public class Controller {
 	
 	public List<User> getUsers() {
 		return users;
-	}			
+	}	
 	
 }

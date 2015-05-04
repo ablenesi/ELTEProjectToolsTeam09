@@ -9,10 +9,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.jws.Oneway;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import view.auth.LoginPanel;
+import view.auth.RegisterPanel;
+import view.auth.WelcomePanel;
 import model.ViewConstraints;
 import controller.Controller;
 /**
@@ -34,7 +36,10 @@ public class MainFrame extends JFrame{
 	
 	private LoginPanel loginPanel;
 	private RegisterPanel registerPanel;
+	private WelcomePanel welcomePanel;
+	
 	private UserBoard userPanel;
+	private MessageBoard messageBoard;
 	
 	private GridBagConstraints c;
 	
@@ -42,17 +47,19 @@ public class MainFrame extends JFrame{
 	private final static int WIDTH = 1000;
 	private final static int HEIGHT = 1000;
 	
-	public MainFrame(Controller controller){				
+	public MainFrame(Controller controller){		
 		initializeComponents(controller);
 		addComponents();
+		setResizable(false);
 	}
 	
 	private void initializeComponents(Controller controller){
 		mainPanel = new JPanel(new GridBagLayout());
-		leftPanel = new JPanel(new FlowLayout());
+		leftPanel = new JPanel(new CardLayout());
 		rigthPanel = new JPanel(new CardLayout());
 		
-		rigthPanel.setPreferredSize(new Dimension(ViewConstraints.RIGHT_PANEL_WIDTH,ViewConstraints.RIGHT_PANEL_HEIGHT));
+		leftPanel.setPreferredSize(new Dimension(ViewConstraints.LEFT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
+		rigthPanel.setPreferredSize(new Dimension(ViewConstraints.RIGHT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
 		
 		setContentPane(mainPanel);
 				
@@ -62,13 +69,17 @@ public class MainFrame extends JFrame{
 		
 		loginPanel = new LoginPanel(controller.getLoginController());
 		registerPanel = new RegisterPanel(controller.getRegisterController());
+		welcomePanel = new WelcomePanel();
+
 		userPanel = new UserBoard(controller.getUsers(), controller.getUserBoardController());
-		
+		messageBoard = new MessageBoard();
 		c = new GridBagConstraints();
 	}
 	
-	private void addComponents(){
-		leftPanel.setBackground(Color.red);
+	private void addComponents(){				
+		addToLeftPanel(welcomePanel, "WELCOME");
+		addToLeftPanel(messageBoard, "MESSAGE_BOARD");
+		
 		addToRigthPanel(loginPanel, "LOGIN");
 		addToRigthPanel(registerPanel, "REGISTER");
 		addToRigthPanel(userPanel, "USER_BOARD");
@@ -77,9 +88,8 @@ public class MainFrame extends JFrame{
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		mainPanel.add(leftPanel,c);
-		
-		c.insets = new Insets(60,20,20,20);
+		c.insets = new Insets(20,20,20,20);
+		mainPanel.add(leftPanel,c);				
 		c.weightx = 1;
 		c.gridx = 1;
 		mainPanel.add(rigthPanel,c);
@@ -93,9 +103,15 @@ public class MainFrame extends JFrame{
 		leftPanel.add(comp, constraints);
 	}
 	
-	public void show(String name) {
+	public void showRightPanel(String name) {
 		CardLayout cl = (CardLayout)(rigthPanel.getLayout());
 	    cl.show(rigthPanel, name);
+	    this.pack();
+	}
+	
+	public void showLeftPanel(String name) {
+		CardLayout cl = (CardLayout)(leftPanel.getLayout());
+	    cl.show(leftPanel, name);
 	    this.pack();
 	}
 	
