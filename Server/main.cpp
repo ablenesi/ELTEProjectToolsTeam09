@@ -1,21 +1,17 @@
 
-#include <stdlib.h>
-#include <iostream>
-
-// #include <cppconn/driver.h>
-// #include <cppconn/exception.h>
-// #include <cppconn/resultset.h>
-// #include <cppconn/statement.h>
-
-//#include <thread>
-
+#include "Server/Server.h"
 #include "GlobalClass.h"
-#include "Entity/MessageEntity.h"
-#include "Dao/UserDao.h"
 
+void error(const char *msg)
+{
+	perror(msg);
+	exit(1);
+}
 
 int main(void)
 {
-	UserDao userDao;
-	std::cout << GlobalClass::DATABASE_HOST << userDao.getEntity(2).getUsername()<< std::endl;
+	Server server(GlobalClass::PORT_NUMBER);
+	server.run();
+
+	return 0; 
 }
