@@ -11,6 +11,8 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import communication.ServerHandler;
+
 import view.auth.LoginPanel;
 import view.auth.RegisterPanel;
 import view.auth.WelcomePanel;
@@ -39,11 +41,12 @@ public class MainFrame extends JFrame{
 	
 	private GridBagConstraints c;	
 	
+	private ServerHandler serverHandler;
+	
 	private final static String TITLE = "Chat";
-	private final static int WIDTH = 1000;
-	private final static int HEIGHT = 1000;
 	
 	public MainFrame(Controller controller){
+		serverHandler = new ServerHandler();
 		initializeComponents(controller);
 		addComponents();
 		setResizable(false);
@@ -123,7 +126,8 @@ public class MainFrame extends JFrame{
 	public Container getContent(){
 		return getContentPane();
 	}
-	
-	
-	
+
+	public ServerHandler getServerHandler() {
+		return serverHandler;
+	}	
 }
