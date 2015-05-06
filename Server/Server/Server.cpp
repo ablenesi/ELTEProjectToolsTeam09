@@ -33,37 +33,47 @@ void Server::run() {
 	sockaddr_in cli_addr;
 	int newsockfd;
 
-	while (true) {
+	//while (true) {
+		std::cout << "Waiting for clients..." << std::endl;
 		newsockfd = accept(sockfd, (sockaddr *) &cli_addr, &clilen);
 		
 		if (newsockfd < 0) {
 			perror("ERROR on accept");
 			exit(1);
 		}
-		std::thread t1(&Server::handleClient, this, newsockfd);
-		t1.detach();
-	}
+		std::thread clientHandlerThread(&Server::handleClient, this, newsockfd);
+		//clientHandlerThread.detach();
+		clientHandlerThread.join();
+	//}
 }
 
+
 void Server::handleClient(int clientSocket) {
-	char buffer[256];
-	int n = read(newsockfd,buffer,255);
-	std::string message(buffer);
-	std::string command = message.subst(0, 3);
+	std::cout << "Processing client ..." << std::endl;
+	char buffer[1024];
+	int n = read(clientSocket,buffer, sizeof(buffer));
+	buffer[3] = 0;
+
+	std::string command(buffer);
+	std::string message(buffer + 4);
+
+	std::string response;
 
 	if (command == "REG") {
-
+		response = chatHandler.registerUser(message);
 	} else if (command == "LOG"){
-
+		response = chatHandler.loginUser(message);
 	} else if (command == "UPD") {
-
+		response = chatHandler.updateUser(message);
 	} else if (command == "MES") {
-
+		response = chatHandler.messageUser(message);
 	}
-	
+
+	const char* responseData = response.c_str();
+	n = write(clientSocket,responseData, response.length()*sizeof(char));
 
 
-	close(newsockfd);
+	close(clientSocket);
 }
 
 

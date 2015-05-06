@@ -12,6 +12,9 @@ AM_INIT_AUTOMAKE([subdir-objects foreign])
 
 AC_CONFIG_FILES([Makefile])
 
+AC_LANG([C++])
+AX_CXX_COMPILE_STDCXX_11
+CXXFLAGS='-Wall -std=gnu++0x'
 AC_PROG_CXX
 
 AC_OUTPUT

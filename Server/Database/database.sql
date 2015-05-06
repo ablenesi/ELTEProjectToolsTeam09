@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `chat_user` (
 		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`name` varchar(12) COLLATE utf8_bin NOT NULL,
+		`username` varchar(12) COLLATE utf8_bin NOT NULL,
 		`password` varchar(12) NOT NULL,
 		`email` varchar(12) NOT NULL,
 		`last_update` int(11) NOT NULL,

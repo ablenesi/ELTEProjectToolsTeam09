@@ -5,6 +5,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+#include <cppconn/prepared_statement.h>
 #include <vector>
 
 #include "../Entity/Entity.h"
@@ -14,7 +15,7 @@ class Dao {
 public:
 	Dao();
 	~Dao();
-	virtual Entity getEntity(int id) = 0;
+	long last_insert_id();
 protected:
 	sql::Driver *driver;
 	sql::Connection *con;
