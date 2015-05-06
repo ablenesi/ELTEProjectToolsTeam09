@@ -1,6 +1,12 @@
 #include "UserEntity.h"
 
-UserEntity::UserEntity() {}
+UserEntity::UserEntity() {
+	id = 0;
+	username = "";
+	password = "";
+	email = "";
+	lastUpdate = 0;
+}
 
 UserEntity::UserEntity(std::string _username, std::string _password, std::string _email, long _lastUpdate) {
 	username = _username;

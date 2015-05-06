@@ -11,7 +11,6 @@ ChatHandler::~ChatHandler() {
 std::string ChatHandler::registerUser(const std::string &request) {
 	UserEntity user = createUserFromRequest(request);
 	std::string response;
-	std::string token;
 	int code;
 	if (user.getUsername() == "") {
 		code = GlobalClass::INCORRECT_REQUEST_FORMAT;
@@ -22,23 +21,41 @@ std::string ChatHandler::registerUser(const std::string &request) {
 		long id = userDao.saveUser(user);
 		if (id > 0) {
 			code = GlobalClass::REQUEST_OK;
-			// TO-DO Hashing needs to be implemented ( something like SHA256)
-			// token = sha256(rand()) example
-			// example: http://www.zedwood.com/article/cpp-sha256-function
-			token = "SomeRandomToken" + id;
 		} else {
 			code = GlobalClass::USER_NAME_ALREADY_EXIST;
 		}
 	}
 	response = GlobalClass::converter(code);
-	response += GlobalClass::DELIMITER1 + token;
-
 
 	return response;
 }
 
 std::string ChatHandler::loginUser(const std::string &request) {
-	return "OK VVorking";
+	UserEntity user = createUserFromRequest(request);
+	std::string response, token;
+	int code;
+
+	if (user.getUsername() == "") {
+		code = GlobalClass::INCORRECT_REQUEST_FORMAT;
+	} else {
+		UserDao userDao;
+		user = userDao.getEntity(user.getUsername(), user.getPassword());
+		int id = user.getId();
+		if (id > 0) {
+			int i = 0;
+			do {
+				token = std::string("RandomToken") + GlobalClass::converter(id +i);
+				i++;
+			} while (onlineUsers.find(token) != onlineUsers.end());
+			onlineUsers["token"] = user;
+			code = GlobalClass::REQUEST_OK;
+		} else {
+			code = GlobalClass::INCORRECT_USER_OR_PASSWOROD;
+		}
+	}
+	response = GlobalClass::converter(code) + GlobalClass::DELIMITER1 + token;
+
+	return response;
 }
 
 std::string ChatHandler::updateUser(const std::string &request) {
@@ -52,6 +69,9 @@ std::string ChatHandler::messageUser(const std::string &request) {
 
 UserEntity ChatHandler::createUserFromRequest(const std::string &request) {
 	std::vector<std::string> userData = GlobalClass::split(request, GlobalClass::DELIMITER1);
-	return (userData.size() == 3) ? UserEntity(userData[0], userData[1], userData[2], time(0)):
-			UserEntity();
+	UserEntity user;
+	if (userData.size() == 3) user =  UserEntity(userData[0], userData[1], userData[2], time(0));
+	else if (userData.size() == 2) user = UserEntity(userData[0], userData[1], "", 0);
+
+	return user;
 }

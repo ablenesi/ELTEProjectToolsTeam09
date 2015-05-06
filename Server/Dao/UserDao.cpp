@@ -6,7 +6,7 @@ UserEntity UserDao::getEntity(int id) {
 	UserEntity user;
 	
 	sql::PreparedStatement* stmt = con->prepareStatement(
-		"select id, username, password, email, last_update from `chat_user` where `id` = ?"
+		"SELECT id, username, password, email, last_update FROM `chat_user` WHERE `id` = ?"
 	);
 	stmt->setInt(1, id);
 	stmt->execute();
@@ -31,7 +31,7 @@ UserEntity UserDao::getEntity(std::string username) {
 	UserEntity user;
 	
 	sql::PreparedStatement* stmt = con->prepareStatement(
-		"select id, username, password, email, last_update from `chat_user` where `username` = ?"
+		"SELECT id, username, password, email, last_update FROM `chat_user` WHERE `username` = ?"
 	);
 	stmt->setString(1, username);
 	stmt->execute();
@@ -45,6 +45,28 @@ UserEntity UserDao::getEntity(std::string username) {
 		
 	}
 	delete res;
+	delete stmt;
+
+	return user;
+}
+
+UserEntity UserDao::getEntity(std::string username, std::string password) {
+	UserEntity user;
+	
+	sql::PreparedStatement* stmt = con->prepareStatement(
+		"SELECT id, email, last_update FROM `chat_user` WHERE `username` = ? AND `password` = ?"
+	);
+	stmt->setString(1, username);
+	stmt->setString(2, password);
+
+	sql::ResultSet* res = stmt->executeQuery();
+	if (res->next()) {
+		user.setId(res->getInt("id"));
+		user.setEmail(res->getString("email"));
+		user.setLastUpdate(res->getInt("last_update"));
+		
+	}
+
 	delete stmt;
 
 	return user;

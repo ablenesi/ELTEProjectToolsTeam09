@@ -22,6 +22,7 @@ public:
 	std::string messageUser(const std::string &request);
 private:
 	UserEntity createUserFromRequest(const std::string &request);
+	std::map<std::string, UserEntity> onlineUsers;
 	std::mutex _mu;
 };
 
