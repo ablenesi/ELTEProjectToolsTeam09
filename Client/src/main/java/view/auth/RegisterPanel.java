@@ -133,5 +133,22 @@ public class RegisterPanel extends JPanel {
 	public JButton getLoginButton() {
 		return loginButton;
 	}
+	
+	public String getUsername(){
+		return usernameFiled.getText();
+	}
+	
+	public String getEmail(){
+		return emailFiled.getText();
+	}
+	
+	public String getPassword(){
+		return new String(passwordFiled.getPassword());
+	}
+	
+	public String getRePassword(){
+		return new String(rePasswordFiled.getPassword());
+	}
 		
 }
+

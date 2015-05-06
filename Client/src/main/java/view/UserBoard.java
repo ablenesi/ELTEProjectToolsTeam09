@@ -30,6 +30,7 @@ public class UserBoard extends JPanel {
 	private JButton logoutButton;
 	private JScrollPane scrollPanel;
 	private JPanel board;
+	
 	private GridBagConstraints c;
 	
 	private UserBoardController controller;
@@ -55,7 +56,9 @@ public class UserBoard extends JPanel {
 		c = new GridBagConstraints();
 		this.setLayout(new FlowLayout());		
 		scrollPanel = new JScrollPane();
-		board = new JPanel(new GridBagLayout());		
+		scrollPanel.setBackground(ViewConstraints.BASIC_BG_COLOR);
+		board = new JPanel(new GridBagLayout());
+		board.setBackground(ViewConstraints.BASIC_BG_COLOR);
 		this.setLayout(new GridBagLayout());
 		this.setPreferredSize(new Dimension(ViewConstraints.RIGHT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
 	}

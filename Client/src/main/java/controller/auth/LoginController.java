@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import view.auth.LoginPanel;
 import controller.Controller;
 import model.ViewConstraints;
 
@@ -16,21 +17,22 @@ public class LoginController implements ActionListener{
 		this.mainController = mainController;
 	}		
 	
-	private void loginToServer(){
-		System.out.println("I try to log in");
-		mainController.loadUserBoard();
+	private void loginToServer(String userName, String password){
+		System.out.println("I try to log in "+ userName + " " + password);
+		mainController.loadRightPanel("USER_BOARD");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton) e.getSource();
+		LoginPanel loginPanel = (LoginPanel)source.getParent();
 		System.out.println(source.getText());
 		switch (source.getText()) {
 		case ViewConstraints.LOGIN_BUTTON_TEXT:
-			loginToServer();
+			loginToServer(loginPanel.getUserName(), loginPanel.getPassword());
 			break;		
 		case ViewConstraints.REGISTER_BUTTON_TEXT:
-			mainController.loadRegister();
+			mainController.loadRightPanel("REGISTER");
 			break;
 		}
 		

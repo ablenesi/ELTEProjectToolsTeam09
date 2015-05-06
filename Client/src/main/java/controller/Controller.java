@@ -14,6 +14,7 @@ public class Controller {
 	private LoginController loginController;
 	private RegisterController registerController;
 	private UserBoardController userBoardController;
+	private MessageBoardController messageBoardController;
 	
 	private List<User> users;
 	
@@ -21,42 +22,38 @@ public class Controller {
 		loginController = new LoginController(this);
 		registerController = new RegisterController(this);
 		userBoardController = new UserBoardController(this);
-		
+		messageBoardController = new MessageBoardController(this);
 		users = new ArrayList<User>();
-		/* J U S T  T E S T */
-		users.add(new User("Peti"));
-		users.add(new User("Lai"));
-		users.add(new User("JANI"));
-	}
+		users.add(new User("Public Chat"));
+		users.add(new User("Pasd"));
+	}	
 	
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 
-	public void loadLogin(){		
-		mainFrame.showRightPanel("LOGIN");
-	}
-	
-	public void loadRegister(){
-		mainFrame.showRightPanel("REGISTER");
-	}
-	
-	public void loadWelcome(){
-		mainFrame.showLeftPanel("WELCOME");
-	}
-	
-	public void loadUserBoard(){		
-		mainFrame.showRightPanel("USER_BOARD");
+	public void loadRightPanel(String panel){		
+		mainFrame.showRightPanel(panel);
 	}
 	
 	public void loadMessageBoard(User user){
-		mainFrame.showLeftPanel("MESSAGE_BOARD");		
+		if (user.isActivated()){
+			mainFrame.showMessageBoard(user);
+		}else{
+			user.setActivated(true);
+			mainFrame.addMessageBoard(user, messageBoardController);
+			mainFrame.showMessageBoard(user);
+		}			
 	}
 
-	public LoginController getLoginController() {
+	public void loadWelcome(){
+		mainFrame.showLeftPanel("WELCOME");
+	}
+		public LoginController getLoginController() {
 		return loginController;
 	}
 
+		
 	public RegisterController getRegisterController() {
 		return registerController;
 	}
