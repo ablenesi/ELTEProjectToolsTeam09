@@ -7,6 +7,10 @@
 class UserDao : public Dao {
 public:
 	UserEntity getEntity(int id);
+	UserEntity getEntity(std::string username);
+	long saveUser(UserEntity user);
+	void updateUser(UserEntity user);
+	void removeUser(long id);
 };
 
 #endif

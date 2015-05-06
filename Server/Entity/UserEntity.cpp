@@ -1,6 +1,13 @@
 #include "UserEntity.h"
 
+UserEntity::UserEntity() {}
 
+UserEntity::UserEntity(std::string _username, std::string _password, std::string _email, long _lastUpdate) {
+	username = _username;
+	password = _password;
+	email = _email;
+	lastUpdate = _lastUpdate;
+}
 
 std::string UserEntity::getUsername() {
 	return username;
@@ -14,11 +21,11 @@ std::string UserEntity::getEmail() {
 	return email;
 }
 
-int UserEntity::getLastUpdate() {
+long UserEntity::getLastUpdate() {
 	return lastUpdate;
 }
 
-void UserEntity::setUsername(std::string _Username) {
+void UserEntity::setUsername(std::string _username) {
 	username = _username;
 }
 
@@ -30,6 +37,6 @@ void UserEntity::setEmail(std::string _email) {
 	email = _email;
 }
 
-void UserEntity::setLastUpdate(int _lastUpdate) {
+void UserEntity::setLastUpdate(long _lastUpdate) {
 	lastUpdate = _lastUpdate;
 }

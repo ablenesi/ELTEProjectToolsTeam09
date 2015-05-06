@@ -4,6 +4,7 @@
 #include <string>
 #include <ctime>
 #include <sstream>
+#include <vector>
 
 class GlobalClass {
 public:
@@ -14,9 +15,20 @@ public:
 	static const std::string DATABASE_USER;
 	static const std::string DATABASE_PASSWORD;
 
+	static const std::string SALT;
+
 	static const int PORT_NUMBER;
 
-	static std::string converter(int a); 
+	static const char DELIMITER1;
+	static const char DELIMITER2;
+
+
+	static const int REQUEST_OK = 0;
+	static const int INCORRECT_REQUEST_FORMAT = -1;
+	static const int USER_NAME_ALREADY_EXIST = -2;
+
+	static std::vector<std::string> split(const std::string &s, char delim);
+	static std::string converter(int a);
 };
 
 

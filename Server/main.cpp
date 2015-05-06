@@ -1,6 +1,5 @@
 
 #include "Server/Server.h"
-#include "GlobalClass.h"
 
 void error(const char *msg)
 {
