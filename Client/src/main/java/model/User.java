@@ -1,16 +1,36 @@
 package model;
 
+import java.util.List;
+
+import javax.swing.text.Document;
+
 public class User {
 	private String userName;
-	private boolean active;
-	
-	public User() {		
-		active = false;
-	}
+	private boolean active; 	// is the users panel currently open 
+	private boolean activated; // if a panel is already open for this user
+	private Document doc;		// the panels document 
+	private List<Message> messages; 	
 	
 	public User(String userName) {
 		this.userName = userName;
 		active = false;
+		activated = false;
+	}
+	
+	public synchronized void addMessage(Message mess){
+		messages.add(mess);		
+	}
+	
+	/**
+	 * Writes all messages to the users document if the user was activated
+	 */
+	public synchronized void update(){
+		if(activated){
+			for (Message message : messages) {
+				message.printMessage(doc);
+			}
+			messages.clear();
+		}
 	}
 
 	public String getUserName() {
@@ -21,12 +41,24 @@ public class User {
 		this.userName = userName;
 	}
 
+	public void setDocumnent(Document doc){
+		this.doc = doc;
+	}
+	
 	public boolean isActive() {
 		return active;
 	}
+	
+	public boolean isActivated() {
+		return activated;
+	}
 
-	public void setActive(boolean active) {
+	public void setActive(boolean active) {	
 		this.active = active;
 	}
-		
+	
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
+	
 }

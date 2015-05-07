@@ -3,6 +3,11 @@ package model;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+
 public class ViewConstraints {
 	public static final Font TITLE_LABLE_FONT 		= new Font("Thaoma", Font.PLAIN, 28);
 	public static final Font BASIC_LABLE_FONT 		= new Font("Thaoma", Font.PLAIN, 14);
@@ -20,4 +25,25 @@ public class ViewConstraints {
 	
 	public static final Color USER_SEL_BG_COLOR		= new Color(210,244,210);
 	public static final Color USER_NOT_SEL_BG_COLOR	= new Color(224,224,224);
+	
+	public static final Color BASIC_BORDER_COLOR 	= new Color(122,138,153);
+	public static final Color BASIC_BG_COLOR 		= new Color(240,240,240);
+	
+	public static final Border BASIC_BORDER			= BorderFactory.createLineBorder(BASIC_BORDER_COLOR);
+	
+	public static final SimpleAttributeSet NAME 	= new SimpleAttributeSet();
+	public static final SimpleAttributeSet DATE 	= new SimpleAttributeSet();
+	
+	
+	/**
+	 * Sets up basic text formating keywords
+	 */
+	public static void init(){
+		StyleConstants.setForeground(NAME, new Color(0, 51, 204));		
+		StyleConstants.setBold(NAME, true);
+		
+
+		StyleConstants.setForeground(DATE, new Color(148, 170, 233));		
+		StyleConstants.setBold(DATE, true);
+	}
 }

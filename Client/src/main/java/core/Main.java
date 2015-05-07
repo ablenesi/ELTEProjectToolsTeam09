@@ -10,7 +10,7 @@ public class Main {
         Controller controller = new Controller();
         MainFrame mainFrame = new MainFrame(controller);        
         controller.setMainFrame(mainFrame);
-        controller.loadLogin();
+        controller.loadRightPanel("LOGIN");
         mainFrame.pack();
         mainFrame.setVisible(true);        
 	}

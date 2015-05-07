@@ -1,27 +1,25 @@
 package view;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import communication.ServerHandler;
+
 import view.auth.LoginPanel;
 import view.auth.RegisterPanel;
 import view.auth.WelcomePanel;
+import model.User;
 import model.ViewConstraints;
 import controller.Controller;
-/**
- * 
- * @author Blénesi Attila
- *
- */
+import controller.MessageBoardController;
 
 public class MainFrame extends JFrame{
 	
@@ -39,15 +37,16 @@ public class MainFrame extends JFrame{
 	private WelcomePanel welcomePanel;
 	
 	private UserBoard userPanel;
-	private MessageBoard messageBoard;
+	private HashMap<String,MessageBoard> messageBoards;
 	
-	private GridBagConstraints c;
+	private GridBagConstraints c;	
+	
+	private ServerHandler serverHandler;
 	
 	private final static String TITLE = "Chat";
-	private final static int WIDTH = 1000;
-	private final static int HEIGHT = 1000;
 	
-	public MainFrame(Controller controller){		
+	public MainFrame(Controller controller){
+		serverHandler = new ServerHandler();
 		initializeComponents(controller);
 		addComponents();
 		setResizable(false);
@@ -57,7 +56,7 @@ public class MainFrame extends JFrame{
 		mainPanel = new JPanel(new GridBagLayout());
 		leftPanel = new JPanel(new CardLayout());
 		rigthPanel = new JPanel(new CardLayout());
-		
+		ViewConstraints.init();
 		leftPanel.setPreferredSize(new Dimension(ViewConstraints.LEFT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
 		rigthPanel.setPreferredSize(new Dimension(ViewConstraints.RIGHT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
 		
@@ -72,14 +71,12 @@ public class MainFrame extends JFrame{
 		welcomePanel = new WelcomePanel();
 
 		userPanel = new UserBoard(controller.getUsers(), controller.getUserBoardController());
-		messageBoard = new MessageBoard();
+		messageBoards = new HashMap<String, MessageBoard>();
 		c = new GridBagConstraints();
 	}
 	
 	private void addComponents(){				
-		addToLeftPanel(welcomePanel, "WELCOME");
-		addToLeftPanel(messageBoard, "MESSAGE_BOARD");
-		
+		addToLeftPanel(welcomePanel, "WELCOME");		
 		addToRigthPanel(loginPanel, "LOGIN");
 		addToRigthPanel(registerPanel, "REGISTER");
 		addToRigthPanel(userPanel, "USER_BOARD");
@@ -95,6 +92,17 @@ public class MainFrame extends JFrame{
 		mainPanel.add(rigthPanel,c);
 	}
 
+	public void addMessageBoard(User user, MessageBoardController controller){
+		MessageBoard m = new MessageBoard(user,controller);
+		user.setDocumnent(m.getDoc());
+		messageBoards.put(user.getUserName(), m);
+		addToLeftPanel(m, user.getUserName());
+	}
+	
+	public void showMessageBoard(User user){
+		showLeftPanel(user.getUserName());
+	}
+	
 	public void addToRigthPanel(JPanel comp, String constraints){
 		rigthPanel.add(comp, constraints);
 	}
@@ -118,5 +126,8 @@ public class MainFrame extends JFrame{
 	public Container getContent(){
 		return getContentPane();
 	}
-	
+
+	public ServerHandler getServerHandler() {
+		return serverHandler;
+	}	
 }

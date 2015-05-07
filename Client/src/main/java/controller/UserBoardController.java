@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 
 import model.User;
-import model.ViewConstraints;
 import view.UserBoard;
 
 public class UserBoardController implements MouseListener, ActionListener {
@@ -20,8 +19,8 @@ public class UserBoardController implements MouseListener, ActionListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		UserBoard.ListItem source = (UserBoard.ListItem) arg0.getSource();
+	public void mouseClicked(MouseEvent e) {
+		UserBoard.ListItem source = (UserBoard.ListItem) e.getSource();
 		User user = source.getUser();
 		System.out.println(user.getUserName()+" Open NEW tab");
 		source.setActiveUser(user);
@@ -29,33 +28,22 @@ public class UserBoardController implements MouseListener, ActionListener {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-
-	}
+	public void mouseEntered(MouseEvent e) { }
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mousePressed(MouseEvent e) { }
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseReleased(MouseEvent e) { }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton) e.getSource();
 		System.out.println(source.getText() + "LOging out");
-		controller.loadLogin();
+		controller.loadRightPanel("LOGIN");
 		controller.loadWelcome();
 	}
 
