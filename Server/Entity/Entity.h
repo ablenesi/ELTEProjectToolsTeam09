@@ -6,7 +6,8 @@ protected:
 	int id;
 public:
 	void setId(int _id);
-	int getId(); 
+	int getId();
+	bool operator==(const Entity& entity);
 };
 
 #endif

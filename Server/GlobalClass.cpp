@@ -7,7 +7,16 @@ const std::string GlobalClass::DATABASE_NAME = "chat_db";
 const std::string GlobalClass::DATABASE_USER = "dbuser";
 const std::string GlobalClass::DATABASE_PASSWORD = "dbpassword";
 
-const std::string GlobalClass::SALT = "gWiSdUQMZUXdT6ocMK3Y6Mki9u2MavEKcrHXyvxlKBGh";
+const std::string GlobalClass::SALT = "901d709a83710d7fe1dd0e8d3be2347b90c1cbb284c6b9f753a234dd94edfcca";
+
+const std::string GlobalClass::COMMON_ROOM_NAME = "COMMON";
+
+const int GlobalClass::REQUEST_OK = 0;
+const int GlobalClass::INCORRECT_REQUEST= -1;
+const int GlobalClass::USER_NAME_ALREADY_EXIST = -2;
+const int GlobalClass::INCORRECT_USER_OR_PASSWOROD = -3;
+const int GlobalClass::DATABASE_ERROR = -4;
+
 
 const char GlobalClass::DELIMITER1 = (char)37;
 const char GlobalClass::DELIMITER2 = (char)38;
@@ -22,6 +31,7 @@ std::vector<std::string> GlobalClass::split(const std::string &s, char delim) {
 	while (std::getline(ss, item, delim)) {
 		elems.push_back(trim(item));
 	}
+	
 	return elems;
 }
 

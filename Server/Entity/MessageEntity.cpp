@@ -1,5 +1,14 @@
 #include "MessageEntity.h"
 
+MessageEntity::MessageEntity() {}
+
+MessageEntity::MessageEntity(UserEntity _user, UserEntity _targetUser, std::string _content, int _time) {
+	user = _user;
+	content = _content;
+	time = _time;
+	targetUser = _targetUser;
+}
+
 UserEntity MessageEntity::getUser() {
 	return user;
 }

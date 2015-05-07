@@ -12,6 +12,8 @@ private:
 	int time;
 	UserEntity targetUser;
 public:
+	MessageEntity();
+	MessageEntity(UserEntity user, UserEntity targetUser, std::string content, int time);
 	UserEntity getUser();
 	std::string	getContent();
 	int getTime();

@@ -3,6 +3,7 @@
 Server::Server(int port):PORT(port) {
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
 	if (sockfd < 0) 
 		error("ERROR opening socket");
 
@@ -33,46 +34,48 @@ void Server::run() {
 	sockaddr_in cli_addr;
 	int newsockfd;
 
-	//while (true) {
-		std::cout << "Waiting for clients..." << std::endl;
-		newsockfd = accept(sockfd, (sockaddr *) &cli_addr, &clilen);
-		
-		if (newsockfd < 0) {
-			perror("ERROR on accept");
-			exit(1);
-		}
+	std::cout << "Waiting for clients..." << std::endl;
+
+	while ((newsockfd = accept(sockfd, (sockaddr *) &cli_addr, &clilen)) >= 0) {
 		std::thread clientHandlerThread(&Server::handleClient, this, newsockfd);
-		//clientHandlerThread.detach();
-		clientHandlerThread.join();
-	//}
+		clientHandlerThread.detach();
+		//clientHandlerThread.join();
+	}
 }
 
 
 void Server::handleClient(int clientSocket) {
 	std::cout << "Processing client ..." << std::endl;
 	char buffer[1024];
-	int n = read(clientSocket,buffer, sizeof(buffer));
-	buffer[3] = 0;
+	int n;
+	std::string command, message, response;
+	
 
-	std::string command(buffer);
-	std::string message(buffer + 4);
+	while ((n = read(clientSocket,buffer, sizeof(buffer))) > 0) {		
+		std::cout << "Running!! " << n << std::endl;
 
-	std::string response;
+		buffer[3] = 0;
 
-	if (command == "REG") {
-		response = chatHandler.registerUser(message);
-	} else if (command == "LOG"){
-		response = chatHandler.loginUser(message);
-	} else if (command == "UPD") {
-		response = chatHandler.updateUser(message);
-	} else if (command == "MES") {
-		response = chatHandler.messageUser(message);
+		command = buffer;
+		message = (buffer + 4);
+
+		if (command == "REG") {
+			response = chatHandler.registerUser(message);
+		} else if (command == "LOG"){
+			response = chatHandler.loginUser(message);
+		} else if (command == "UPD") {
+			response = chatHandler.updateUser(message);
+		} else if (command == "MES") {
+			response = chatHandler.messageUser(message);
+		} else if (command == "OUT") {
+			std::cout << "Client end";
+			break;
+		}
+		response += "\n";
+
+		const char* responseData = response.c_str();
+		n = write(clientSocket,responseData, response.length()*sizeof(char));
 	}
-
-	const char* responseData = response.c_str();
-	n = write(clientSocket,responseData, response.length()*sizeof(char));
-
-
 	close(clientSocket);
 }
 

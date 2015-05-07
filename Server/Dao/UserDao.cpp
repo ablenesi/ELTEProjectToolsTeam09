@@ -31,14 +31,14 @@ UserEntity UserDao::getEntity(std::string username) {
 	UserEntity user;
 	
 	sql::PreparedStatement* stmt = con->prepareStatement(
-		"SELECT id, username, password, email, last_update FROM `chat_user` WHERE `username` = ?"
+		"SELECT id, password, email, last_update FROM `chat_user` WHERE `username` = ?"
 	);
 	stmt->setString(1, username);
 	stmt->execute();
 	sql::ResultSet* res = stmt->getResultSet();
 	if (res->next()) {
 		user.setId(res->getInt("id"));
-		user.setUsername(res->getString("username"));
+		user.setUsername(username);
 		user.setPassword(res->getString("password"));
 		user.setEmail(res->getString("email"));
 		user.setLastUpdate(res->getInt("last_update"));
@@ -75,6 +75,7 @@ UserEntity UserDao::getEntity(std::string username, std::string password) {
 
 long UserDao::saveUser(UserEntity user) {
 	int id;
+
 	UserEntity tempUser = getEntity(user.getUsername());
 	if (tempUser.getUsername() == "") {
 		sql::PreparedStatement* stmt = con->prepareStatement(

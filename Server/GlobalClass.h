@@ -22,11 +22,13 @@ public:
 	static const char DELIMITER1;
 	static const char DELIMITER2;
 
+	static const std::string COMMON_ROOM_NAME;
 
-	static const int REQUEST_OK = 0;
-	static const int INCORRECT_REQUEST_FORMAT = -1;
-	static const int USER_NAME_ALREADY_EXIST = -2;
-	static const int INCORRECT_USER_OR_PASSWOROD = -3;
+	static const int REQUEST_OK;
+	static const int USER_NAME_ALREADY_EXIST;
+	static const int INCORRECT_REQUEST;
+	static const int INCORRECT_USER_OR_PASSWOROD;
+	static const int DATABASE_ERROR;
 
 	static std::string trim(const std::string& str, const std::string& whitespace = " \t\n");
 	static std::vector<std::string> split(const std::string &s, char delim);
