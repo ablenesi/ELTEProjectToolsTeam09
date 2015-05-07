@@ -9,6 +9,7 @@ const std::string GlobalClass::DATABASE_PASSWORD = "dbpassword";
 
 const std::string GlobalClass::SALT = "901d709a83710d7fe1dd0e8d3be2347b90c1cbb284c6b9f753a234dd94edfcca";
 
+const int GlobalClass::COMMON_USER_ID = -1;
 const std::string GlobalClass::COMMON_ROOM_NAME = "COMMON";
 
 const int GlobalClass::REQUEST_OK = 0;
@@ -20,6 +21,7 @@ const int GlobalClass::DATABASE_ERROR = -4;
 
 const char GlobalClass::DELIMITER1 = (char)37;
 const char GlobalClass::DELIMITER2 = (char)38;
+const char GlobalClass::DELIMITER3 = (char)39;
 
 const int GlobalClass::PORT_NUMBER = 9032;
 

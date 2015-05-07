@@ -8,6 +8,10 @@ UserEntity::UserEntity() {
 	lastUpdate = 0;
 }
 
+UserEntity::UserEntity(int _id) {
+	id = _id;
+}
+
 UserEntity::UserEntity(std::string _username, std::string _password, std::string _email, long _lastUpdate) {
 	username = _username;
 	password = _password;

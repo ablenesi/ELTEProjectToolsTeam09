@@ -79,9 +79,41 @@ std::string ChatHandler::loginUser(const std::string &request) {
 	return response;
 }
 
-std::string ChatHandler::updateUser(const std::string &request) {
+std::string ChatHandler::updateUser(const std::string token) {
+	int code;
+	UserEntity user = onlineUsers[token];
+	
+	//std::cout << "Token " << token << " " << onlineUsers[token].getUsername() << std::endl;
+	std::string onlineU = "";
+	std::string response;
+	if (user.getId() > 0) {
+		for(auto userElement : onlineUsers) {
+			onlineU += userElement.second.getUsername() + GlobalClass::DELIMITER2;
+		}
+		MessageDao messageDao;
+		std::vector<MessageEntity> privateMessageList = messageDao.getMessages(user, user.getLastUpdate());
+		std::vector<MessageEntity> publicMessageList = messageDao.getPublicMessages(user.getLastUpdate());
 
-	return "OK VVorking";
+		std::string privateMsg;
+		std::string publicMsg;
+		for(auto msg: privateMessageList) {
+			privateMsg += msg.getUser().getUsername() + GlobalClass::DELIMITER3 + 
+				msg.getContent() + GlobalClass::DELIMITER3 + GlobalClass::converter(msg.getTime())+ GlobalClass::DELIMITER2;
+		} 
+		for(auto msg: publicMessageList) {
+			publicMsg += msg.getUser().getUsername() + GlobalClass::DELIMITER3 + 
+				msg.getContent() + GlobalClass::DELIMITER3 + GlobalClass::converter(msg.getTime())+ GlobalClass::DELIMITER2;
+		}
+		response = privateMsg + GlobalClass::DELIMITER1 + publicMsg;
+
+		onlineUsers[token].setLastUpdate(time(0));
+		code = GlobalClass::REQUEST_OK;
+	} else {
+		code = GlobalClass::INCORRECT_REQUEST;
+	}
+
+	response  = GlobalClass::converter(code) + GlobalClass::DELIMITER1 + response;
+	return response;
 }
 
 std::string ChatHandler::messageUser(const std::string &request) {

@@ -55,10 +55,12 @@ void Server::handleClient(int clientSocket) {
 		std::cout << "Running!! " << n << std::endl;
 
 		buffer[3] = 0;
+		buffer[n] = 0;
 
 		command = buffer;
 		message = (buffer + 4);
-
+		message = GlobalClass::trim(message);
+	
 		if (command == "REG") {
 			response = chatHandler.registerUser(message);
 		} else if (command == "LOG"){

@@ -21,7 +21,7 @@ public:
 	~ChatHandler();
 	std::string registerUser(const std::string &request);
 	std::string loginUser(const std::string &request);
-	std::string updateUser(const std::string &request);
+	std::string updateUser(const std::string token);
 	std::string messageUser(const std::string &request);
 private:
 	UserEntity createUserFromRequest(const std::string &request);

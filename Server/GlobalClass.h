@@ -21,7 +21,9 @@ public:
 
 	static const char DELIMITER1;
 	static const char DELIMITER2;
+	static const char DELIMITER3;
 
+	static const int COMMON_USER_ID;
 	static const std::string COMMON_ROOM_NAME;
 
 	static const int REQUEST_OK;

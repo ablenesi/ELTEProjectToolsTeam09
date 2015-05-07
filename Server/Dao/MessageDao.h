@@ -9,6 +9,7 @@ class MessageDao : public Dao {
 public:
 	MessageEntity getEntity(int id);
 	std::vector<MessageEntity> getMessages(UserEntity target, int time);
+	std::vector<MessageEntity> getPublicMessages(int time);
 	int saveMessage(MessageEntity msg);
 };
 

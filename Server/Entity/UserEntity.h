@@ -12,6 +12,7 @@ private:
 	long lastUpdate;
 public:
 	UserEntity();
+	UserEntity(int _id);
 	UserEntity(std::string _username, std::string _password, std::string _email, long _lastUpdate);
 
 	std::string getUsername();

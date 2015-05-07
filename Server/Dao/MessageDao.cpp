@@ -4,15 +4,18 @@ MessageEntity MessageDao::getEntity(int id) {
 	MessageEntity msg;
 	
 	sql::PreparedStatement* stmt = con->prepareStatement(
-		"SELECT user_id, content, target_id, time FROM `chat_message` WHERE `id` = ?"
+		std::string("SELECT user_id, username, content, target_id, time ") + 
+		"FROM `chat_message` " +
+		"JOIN `chat_user` on `chat_message`.user_id = `chat_user`.id WHERE `chat_user`.`id` = ?"
 	);
 	stmt->setInt(1, id);
 	stmt->execute();
-	sql::ResultSet* res = stmt->getResultSet();;
+	sql::ResultSet* res = stmt->getResultSet();
 	UserEntity tempUser;
 	if (res->next()) {
 		msg.setId(id);
 		tempUser.setId(res->getInt("user_id"));
+		tempUser.setUsername(res->getString("username"));
 		msg.setTargetUser(tempUser);
 		tempUser.setId(res->getInt("target_id"));
 		msg.setUser(tempUser);
@@ -29,7 +32,9 @@ std::vector<MessageEntity> MessageDao::getMessages(UserEntity target, int time) 
 	std::vector<MessageEntity> msgs;
 	MessageEntity msg;
 	sql::PreparedStatement* stmt = con->prepareStatement(
-		"SELECT id, user_id, content, time FROM `chat_message` WHERE target_id = ? AND `time` > ?"
+		std::string("SELECT user_id, username, content, time ") + 
+		"FROM `chat_message` " +
+		"JOIN `chat_user` on `chat_message`.user_id = `chat_user`.id WHERE target_id = ? AND `time` > ?"
 	);
 	stmt->setInt(1, target.getId());
 	stmt->setInt(2, time);
@@ -39,9 +44,8 @@ std::vector<MessageEntity> MessageDao::getMessages(UserEntity target, int time) 
 	if (res->next()) {
 		msg.setId(res->getInt("user_id"));
 		tempUser.setId(res->getInt("user_id"));
-		msg.setTargetUser(tempUser);
-		tempUser.setId(res->getInt("target_id"));
 		msg.setUser(tempUser);
+		msg.setTargetUser(target);
 		msg.setContent(res->getString("content"));
 		msg.setTime(res->getInt("time"));
 		msgs.push_back(msg);
@@ -72,3 +76,9 @@ int MessageDao::saveMessage(MessageEntity msg) {
 	}
 	return id;
 }
+
+std::vector<MessageEntity> MessageDao::getPublicMessages(int time) {
+	return getMessages(UserEntity(GlobalClass::COMMON_USER_ID), time);
+}
+
+
