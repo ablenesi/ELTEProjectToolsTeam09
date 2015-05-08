@@ -30,12 +30,12 @@ For this we have written a MySQL script. You can find it unde *Server/Database/I
 
 To run the script type the following in the console
 ```
-$ mysql -u root -p >Server/Database/InstallDatabase.sql
+$ mysql -u root -p < Server/Database/InstallDatabase.sql
 ``` 
 
 The script contains the following:
 ```
-CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'dbpassword'
+CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'dbpassword';
 GRANT ALL ON chat_db.* TO 'dbuser'@'localhost';
 CREATE DATABASE chat_db;
 USE chat_db;
@@ -74,6 +74,12 @@ For installing automake type the folloving command:
 
 ```
 $ sudo apt-get install automake
+```
+
+###Install required library
+The server uses the MySQL cpp connection library, enter the following to get it:
+```
+$ sudo apt-get install libmysqlcppconn-dev
 ```
 
 

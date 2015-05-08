@@ -1,4 +1,4 @@
-CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'dbpassword'
+CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'dbpassword';
 GRANT ALL ON chat_db.* TO 'dbuser'@'localhost';
 CREATE DATABASE chat_db;
 USE chat_db;
