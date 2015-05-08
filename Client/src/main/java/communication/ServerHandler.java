@@ -80,7 +80,7 @@ public class ServerHandler extends Thread{
 				
 		System.out.println("Message sent to server: " + messageToServer);
 		try {
-			return handleServerMessage(br.readLine());
+			return handleLoginServerMessage(br.readLine());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -155,6 +155,25 @@ public class ServerHandler extends Thread{
 		return false;
 	}
 		
+	private boolean handleLoginServerMessage(String serverMessage){
+		String[] messageParts = serverMessage.split(SEPARATOR);
+		int error = Integer.parseInt(messageParts[0]);
+		switch (error) {
+		case REQUEST_OK:
+			System.out.println("Login request OK");			
+			return true;
+		case INCORRECT_REQUEST_FORMAT:
+			System.err.println("Oups! \nSomethin went wrong!\n Request format was invalid");
+			break;
+		case INCORRECT_USER_OR_PASSWOROD:
+			JOptionPane.showMessageDialog(null,"Username or password is incorrect!", "Error",
+	                JOptionPane.ERROR_MESSAGE);
+			break;	
+		default:
+			break;
+		}
+		return false;
+	}
 	
 	private boolean handleServerMessage(String serverMessage){
 		String[] messageParts = serverMessage.split(SEPARATOR);
