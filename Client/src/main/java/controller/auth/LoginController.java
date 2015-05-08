@@ -19,8 +19,11 @@ public class LoginController implements ActionListener{
 	
 	private void loginToServer(String userName, String password){
 		System.out.println("I try to log in "+ userName + " " + password);
-		mainController.getServerHandler().login(userName, password);
-		mainController.loadRightPanel("USER_BOARD");		
+		if(mainController.getServerHandler().login(userName, password)){
+			mainController.getModel().getAuthUser().setUserName(userName);
+			mainController.loadRightPanel("USER_BOARD");
+			mainController.getServerHandler().start();
+		}
 	}
 
 	@Override

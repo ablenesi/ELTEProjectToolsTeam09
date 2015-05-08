@@ -3,7 +3,6 @@ package controller.auth;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.sound.sampled.ReverbType;
 import javax.swing.JButton;
 
 import view.auth.RegisterPanel;

@@ -46,7 +46,7 @@ public class MainFrame extends JFrame{
 	private final static String TITLE = "Chat";
 	
 	public MainFrame(Controller controller){
-		serverHandler = new ServerHandler();
+		serverHandler = new ServerHandler(controller);
 		initializeComponents(controller);
 		addComponents();
 		setResizable(false);
@@ -70,7 +70,7 @@ public class MainFrame extends JFrame{
 		registerPanel = new RegisterPanel(controller.getRegisterController());
 		welcomePanel = new WelcomePanel();
 
-		userPanel = new UserBoard(controller.getUsers(), controller.getUserBoardController());
+		userPanel = new UserBoard(controller.getModel(), controller.getUserBoardController());
 		messageBoards = new HashMap<String, MessageBoard>();
 		c = new GridBagConstraints();
 	}
@@ -130,4 +130,8 @@ public class MainFrame extends JFrame{
 	public ServerHandler getServerHandler() {
 		return serverHandler;
 	}	
+	
+	public UserBoard getUserBoard(){
+		return userPanel;
+	}
 }

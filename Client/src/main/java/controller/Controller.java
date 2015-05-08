@@ -1,12 +1,9 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import communication.ServerHandler;
-
 import controller.auth.LoginController;
 import controller.auth.RegisterController;
+import model.Model;
 import model.User;
 import view.MainFrame;
 
@@ -19,17 +16,16 @@ public class Controller {
 	private UserBoardController userBoardController;
 	private MessageBoardController messageBoardController;
 	
-	private List<User> users;
+	private Model model;
 	
 	public Controller() {
 		loginController = new LoginController(this);
 		registerController = new RegisterController(this);
 		userBoardController = new UserBoardController(this);
 		messageBoardController = new MessageBoardController(this);
-		users = new ArrayList<User>();
-		users.add(new User("Public Chat"));
-		users.add(new User("Pasd"));
-
+		model = new Model();
+		model.addUser(new User("Public Chat"));
+		model.addUser(new User("Pasd"));	
 	}	
 	
 	public void setMainFrame(MainFrame mainFrame) {
@@ -38,9 +34,6 @@ public class Controller {
 		serverHandel.connect();
 	}
 	
-	public ServerHandler getServerHandler() {
-		return serverHandel;
-	}
 
 	public void loadRightPanel(String panel){		
 		mainFrame.showRightPanel(panel);
@@ -59,10 +52,14 @@ public class Controller {
 	public void loadWelcome(){
 		mainFrame.showLeftPanel("WELCOME");
 	}
-		public LoginController getLoginController() {
+	
+	public MainFrame getMainFrame(){
+		return mainFrame;
+	}
+	
+	public LoginController getLoginController() {
 		return loginController;
 	}
-
 		
 	public RegisterController getRegisterController() {
 		return registerController;
@@ -72,8 +69,11 @@ public class Controller {
 		return userBoardController;
 	}
 	
-	public List<User> getUsers() {
-		return users;
-	}	
+	public ServerHandler getServerHandler() {
+		return serverHandel;
+	}
 	
+	public Model getModel() {
+		return model;
+	}	
 }

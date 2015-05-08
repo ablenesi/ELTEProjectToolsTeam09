@@ -15,7 +15,7 @@ import model.ViewConstraints;
 /**
  * The sees this panel first contains welcome text.
  * May contain help for the usage in advance.
- * @author Blénesi Attila
+ * @author Blï¿½nesi Attila
  *
  */
 public class WelcomePanel extends JPanel{
@@ -46,7 +46,7 @@ public class WelcomePanel extends JPanel{
 
 	/**
 	 * Represents a panel whit a specified image.
-	 * @author Blénesi Attila
+	 * @author Blï¿½nesi Attila
 	 *
 	 */
 	private class ImagePanel extends JPanel{
@@ -64,7 +64,7 @@ public class WelcomePanel extends JPanel{
 		public ImagePanel(BufferedImage image) {			
 			if(image == null){
 				try {
-					this.image = ImageIO.read(new File("src\\main\\resources\\blue-talk-chat.png"));
+					this.image = ImageIO.read(new File("src/main/resources/blue-talk-chat.png"));
 				} catch (IOException e) {
 					System.err.println("Welcome picture could not be loaded");
 				}

@@ -61,4 +61,9 @@ public class User {
 		this.activated = activated;
 	}
 	
+	@Override
+    public String toString() {
+        return this.userName;
+    }
+	
 }
