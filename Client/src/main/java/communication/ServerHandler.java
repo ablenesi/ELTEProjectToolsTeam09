@@ -24,7 +24,7 @@ public class ServerHandler extends Thread{
 	private static final String SEND_MESS_KEYWORD 	= "MES";
 	private static final String GET_DATA_KEYWORD 	= "UPD";
 	private static final String GET_LOGOUT_KEYWORD 	= "OUT";
-	private static final char	SEPARATOR			= (char)37;
+	private static final String	SEPARATOR			= ""+(char)37;
 	
 	private static final int REQUEST_OK						= 0;
 	private static final int INCORRECT_REQUEST_FORMAT 		= -1;
@@ -57,7 +57,7 @@ public class ServerHandler extends Thread{
 		}
 	}
 
-	public void register(String userName, String passwd, String email){
+	public boolean register(String userName, String passwd, String email){
 		messageToServer = REGISTER_KEYWORD + SEPARATOR + userName + SEPARATOR + passwd
 				+ SEPARATOR + email;
 		pw.println(messageToServer);
@@ -65,24 +65,26 @@ public class ServerHandler extends Thread{
 				
 		System.out.println("Message sent to server: " + messageToServer);
 		try {
-			handleServerMessage(br.readLine());
+			return handleRegisterServerMessage(br.readLine());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 	}
 
-	public void login(String userName, String passwd){
+	public boolean login(String userName, String passwd){
 		messageToServer = LOGIN_KEYWORD + SEPARATOR + userName + SEPARATOR + passwd;				
 		pw.println(messageToServer);
 		pw.flush();
 				
 		System.out.println("Message sent to server: " + messageToServer);
 		try {
-			handleServerMessage(br.readLine());
+			return handleServerMessage(br.readLine());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 	}
 
@@ -131,25 +133,52 @@ public class ServerHandler extends Thread{
 		}
 	}
 	
-	private void handleServerMessage(String serverMessage){
-		int error = Integer.parseInt(serverMessage);
+	private boolean handleRegisterServerMessage(String serverMessage){
+		String[] messageParts = serverMessage.split(SEPARATOR);
+		int error = Integer.parseInt(messageParts[0]);
+		switch (error) {
+		case REQUEST_OK:
+			System.out.println("Register request OK");
+			JOptionPane.showMessageDialog(null,"Username is crated now you can Sign in!", "Register successful",
+	                JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		case INCORRECT_REQUEST_FORMAT:
+			System.err.println("Oups! \nSomethin went wrong!\n Request format was invalid");
+			break;		
+		case USER_NAME_ALREADY_EXIST:
+			JOptionPane.showMessageDialog(null,"Username alredy exists!", "Error",
+	                JOptionPane.ERROR_MESSAGE);
+			break;
+		default:
+			break;
+		}
+		return false;
+	}
+		
+	
+	private boolean handleServerMessage(String serverMessage){
+		String[] messageParts = serverMessage.split(SEPARATOR);
+		int error = Integer.parseInt(messageParts[0]);
 		switch (error) {
 		case REQUEST_OK:
 			System.out.println("Request OK");
-			break;
+			JOptionPane.showMessageDialog(null,"Username is crated now you can Sign in!", "Register successful",
+	                JOptionPane.INFORMATION_MESSAGE);
+			return true;
 		case INCORRECT_REQUEST_FORMAT:
-			System.err.println("Request format was invalid");
+			System.err.println("Oups! \nSomethin went wrong!\n Request format was invalid");
 			break;
 		case INCORRECT_USER_OR_PASSWOROD:
 			JOptionPane.showMessageDialog(null,"Username or password is incorrect!", "Error",
 	                JOptionPane.ERROR_MESSAGE);
+			break;
 		case USER_NAME_ALREADY_EXIST:
 			JOptionPane.showMessageDialog(null,"Username alredy exists!", "Error",
 	                JOptionPane.ERROR_MESSAGE);
+			break;
 		default:
 			break;
 		}
-		JOptionPane.showMessageDialog(null, serverMessage, "Error",
-                JOptionPane.ERROR_MESSAGE);
+		return false;
 	}
 }

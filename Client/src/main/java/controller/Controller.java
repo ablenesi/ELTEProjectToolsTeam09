@@ -3,13 +3,16 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import communication.ServerHandler;
+
 import controller.auth.LoginController;
 import controller.auth.RegisterController;
 import model.User;
 import view.MainFrame;
 
 public class Controller {
-	private MainFrame mainFrame;	
+	private MainFrame mainFrame;
+	private ServerHandler serverHandel;
 	
 	private LoginController loginController;
 	private RegisterController registerController;
@@ -26,10 +29,17 @@ public class Controller {
 		users = new ArrayList<User>();
 		users.add(new User("Public Chat"));
 		users.add(new User("Pasd"));
+
 	}	
 	
 	public void setMainFrame(MainFrame mainFrame) {
-		this.mainFrame = mainFrame;
+		this.mainFrame = mainFrame;		
+		serverHandel = mainFrame.getServerHandler();
+		serverHandel.connect();
+	}
+	
+	public ServerHandler getServerHandler() {
+		return serverHandel;
 	}
 
 	public void loadRightPanel(String panel){		

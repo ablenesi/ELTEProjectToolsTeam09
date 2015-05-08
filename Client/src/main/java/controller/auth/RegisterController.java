@@ -18,7 +18,8 @@ public class RegisterController implements ActionListener{
 	}
 		
 	private void registerToServer(String userName, String email, String password, String rePassword){
-		System.out.println("I try to register "+ userName +" " + email+ " "+ password + " "+ rePassword);		
+		System.out.println("I try to register "+ userName +" " + email+ " "+ password + " "+ rePassword);
+		mainController.getServerHandler().register(userName, password, email);
 	}
 
 	public void actionPerformed(ActionEvent e) {
