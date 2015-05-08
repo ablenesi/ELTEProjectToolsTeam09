@@ -83,7 +83,6 @@ std::string ChatHandler::updateUser(const std::string token) {
 	int code;
 	UserEntity user = onlineUsers[token];
 	
-	//std::cout << "Token " << token << " " << onlineUsers[token].getUsername() << std::endl;
 	std::string onlineU = "";
 	std::string response;
 	if (user.getId() > 0) {
@@ -104,8 +103,9 @@ std::string ChatHandler::updateUser(const std::string token) {
 			publicMsg += msg.getUser().getUsername() + GlobalClass::DELIMITER3 + 
 				msg.getContent() + GlobalClass::DELIMITER3 + GlobalClass::converter(msg.getTime())+ GlobalClass::DELIMITER2;
 		}
-		response = privateMsg + GlobalClass::DELIMITER1 + publicMsg;
-
+		response = onlineU + GlobalClass::DELIMITER1 + privateMsg + GlobalClass::DELIMITER1 + publicMsg;
+		//for all the messages
+		//onlineUsers[token].setLastUpdate(0);
 		onlineUsers[token].setLastUpdate(time(0));
 		code = GlobalClass::REQUEST_OK;
 	} else {

@@ -41,9 +41,10 @@ std::vector<MessageEntity> MessageDao::getMessages(UserEntity target, int time) 
 	stmt->execute();
 	sql::ResultSet* res = stmt->getResultSet();;
 	UserEntity tempUser;
-	if (res->next()) {
+	while (res->next()) {
 		msg.setId(res->getInt("user_id"));
 		tempUser.setId(res->getInt("user_id"));
+		tempUser.setUsername(res->getString("username"));
 		msg.setUser(tempUser);
 		msg.setTargetUser(target);
 		msg.setContent(res->getString("content"));

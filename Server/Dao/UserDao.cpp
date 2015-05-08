@@ -62,6 +62,7 @@ UserEntity UserDao::getEntity(std::string username, std::string password) {
 	sql::ResultSet* res = stmt->executeQuery();
 	if (res->next()) {
 		user.setId(res->getInt("id"));
+		user.setUsername(username);
 		user.setEmail(res->getString("email"));
 		user.setLastUpdate(res->getInt("last_update"));
 		
