@@ -102,8 +102,9 @@ public class MessageBoard extends JPanel {
 		return doc;
 	}
 	
-	public String getMessage(){
+	public String getMessage(){		
 		String mess = inputText.getText();
+		System.out.println("in get" + mess);
 		inputText.setText("");
 		return mess;
 	}

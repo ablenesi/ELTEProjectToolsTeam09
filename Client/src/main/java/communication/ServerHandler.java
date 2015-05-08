@@ -8,6 +8,8 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import org.omg.CORBA.FREE_MEM;
+
 import controller.Controller;
 import model.Message;
 import model.User;
@@ -190,22 +192,51 @@ public class ServerHandler extends Thread{
 	private boolean handleDataServerMessage(String serverMessage){
 		String[] messageParts = serverMessage.split(SEPARATOR);
 		int error = Integer.parseInt(messageParts[0]);
+		boolean add = true;
+		User fromUser = null;
 		switch (error) {
-		case REQUEST_OK:
-			String[] users = messageParts[1].split(SEPARATOR2);
-			System.out.println("Data Request OK"+serverMessage);			
-			boolean add;
-			for (int i = 0; i < users.length; i++) {
-				add = true;
-				for (User user: controller.getModel().getUsers()) {					
-					if(user.getUserName().equals(users[i])) add = false;
+		case REQUEST_OK:			
+			switch (messageParts.length) {
+			case 3:
+				String[] messages = messageParts[2].split(SEPARATOR2);
+				for (int i = 0; i < messages.length; i++) {
+					String[] aMessage = messages[i].split(SEPARATOR3);
+					add = true;
+					for (User user: controller.getModel().getUsers()) {					
+						if(user.getUserName().equals(aMessage[0])) {
+							add = false;
+							break;
+						}
+					}					
+					if (add){
+						System.out.println("ADD USER "+ aMessage[0]);
+						fromUser = new User(aMessage[0]);
+						controller.getModel().addUser(fromUser);
+					}else{
+						for (User user: controller.getModel().getUsers()) {					
+							if(user.getUserName().equals(aMessage[0])) {
+								fromUser = user;
+								break;
+							}
+						}
+					}
+					fromUser.addMessage(new Message(fromUser.getUserName(),aMessage[1]));
+					fromUser.update();
 				}
-				if (add){
-					System.out.println("ADD USER "+ users[i]);
-					controller.getModel().addUser(new User(users[i]));
-				}
-				
+			case 2:
+				String[] users = messageParts[1].split(SEPARATOR2);
+				for (int i = 0; i < users.length; i++) {
+					add = true;
+					for (User user: controller.getModel().getUsers()) {					
+						if(user.getUserName().equals(users[i])) add = false;
+					}
+					if (add){
+						System.out.println("ADD USER "+ users[i]);
+						controller.getModel().addUser(new User(users[i]));
+					}			
+				}			
 			}
+						
 			return true;
 			
 		case INCORRECT_REQUEST_FORMAT:
@@ -228,9 +259,7 @@ public class ServerHandler extends Thread{
 		int error = Integer.parseInt(messageParts[0]);
 		switch (error) {
 		case REQUEST_OK:
-			System.out.println("Request OK");
-			JOptionPane.showMessageDialog(null,"Username is crated now you can Sign in!", "Register successful",
-	                JOptionPane.INFORMATION_MESSAGE);
+			System.out.println("Send Request OK");			
 			return true;
 			
 		case INCORRECT_REQUEST_FORMAT:

@@ -27,12 +27,12 @@ public class UserBoardController implements ListSelectionListener, ActionListene
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		int index = e.getFirstIndex();
-		if (index != -1){
-			User user = controller.getModel().getUsers().get(index);
-			System.out.println(user.getUserName()+" Open NEW tab");
-			controller.loadMessageBoard(user);
-		}
+		int index = e.getLastIndex();
+
+		User user = controller.getModel().getUsers().get(index);
+		System.out.println(user.getUserName()+" Open NEW tab");
+		controller.loadMessageBoard(user);
+		user.update();
 	}
 
 }

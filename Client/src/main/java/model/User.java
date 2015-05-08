@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.text.Document;
@@ -13,6 +14,7 @@ public class User {
 	
 	public User(String userName) {
 		this.userName = userName;
+		messages = new ArrayList<Message>();
 		active = false;
 		activated = false;
 	}
@@ -24,8 +26,8 @@ public class User {
 	/**
 	 * Writes all messages to the users document if the user was activated
 	 */
-	public synchronized void update(){
-		if(activated){
+	public void update(){
+		if(activated && doc != null){			
 			for (Message message : messages) {
 				message.printMessage(doc);
 			}
@@ -61,6 +63,10 @@ public class User {
 		this.activated = activated;
 	}
 	
+	public Document getDoc() {
+		return doc;
+	}
+
 	@Override
     public String toString() {
         return this.userName;
