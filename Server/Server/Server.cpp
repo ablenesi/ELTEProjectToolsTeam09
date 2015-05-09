@@ -30,16 +30,16 @@ void Server::error(const char *msg)
 void Server::run() {
 	listen(sockfd,5);
 	
-	socklen_t clilen;
 	sockaddr_in cli_addr;
+	socklen_t clilen = sizeof(cli_addr);
 	int newsockfd;
 
 	std::cout << "Waiting for clients..." << std::endl;
 
 	while ((newsockfd = accept(sockfd, (sockaddr *) &cli_addr, &clilen)) >= 0) {
+
 		std::thread clientHandlerThread(&Server::handleClient, this, newsockfd);
 		clientHandlerThread.detach();
-		//clientHandlerThread.join();
 	}
 }
 

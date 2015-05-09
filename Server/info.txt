@@ -9,3 +9,6 @@ Build:
 autoreconf -i
 ./configure
 make
+
+ g++ -Wall -pedantic -o test UserEntity.cc ../../Entity/UserEntity.cpp ../../Entity/Entity.cpp -lgtest -lgtest_main -lpthread
+

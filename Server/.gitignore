@@ -18,4 +18,8 @@ Makefile.in
 stamp-h1
 .deps
 .dirstamp
+server
+test
+*.log
+*.trs
 

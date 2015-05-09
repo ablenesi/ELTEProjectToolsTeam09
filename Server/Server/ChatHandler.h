@@ -12,8 +12,6 @@
 
 
 
-
-
 class ChatHandler
 {
 public:	
