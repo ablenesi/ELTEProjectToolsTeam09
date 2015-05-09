@@ -11,7 +11,13 @@ $ sudo apt-get install maven
 ```
 
 ##Compiling
-To compile the Server type the following three lines of code:
+To compile the Client type the following three lines of code:
 ```
 $ mvn package
+```
+
+##Running
+To run the application after compiling go to ```Client/target``` then run it using the following code:
+```
+java -jar ChatClient-0.0.1-SNAPSHOT.jar
 ```
