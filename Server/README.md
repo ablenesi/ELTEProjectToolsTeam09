@@ -90,3 +90,40 @@ $ autoreconf -i
 $ ./configure
 $ make
 ```
+
+###Server Test library Configuration
+First intall google-mock for test mocking and cmake for building gtest.
+```
+$ sudo apt-get install -y google-mock
+$ sudo apt-get install -y cmake --quiet
+```
+Build gtest:
+```
+cd /usr/src/gtest
+$ sudo cmake -E make_directory build
+$ sudo cmake -E chdir build cmake .. >> /dev/null
+$ sudo cmake --build build >> /dev/null
+```
+```
+ls build/libgtest*
+```
+Should give the following output:
+```
+build/libgtest.a  build/libgtest_main.a
+```
+Copy the lib files to directories were c++ can find them.
+```
+sudo cp build/libgtest* /usr/lib/
+#unnecessary directory can be removed
+sudo rm -rf build
+```
+
+###Running tests
+Tests can be run from Server with the following command:
+```
+make check
+```
+or from ServerTest with:
+```
+make
+```
