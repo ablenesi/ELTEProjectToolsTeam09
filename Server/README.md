@@ -113,17 +113,18 @@ build/libgtest.a  build/libgtest_main.a
 ```
 Copy the lib files to directories were c++ can find them.
 ```
-sudo cp build/libgtest* /usr/lib/
+$ sudo cp build/libgtest* /usr/lib/
 #unnecessary directory can be removed
-sudo rm -rf build
+$ sudo rm -rf build
 ```
 
 ###Running tests
 Tests can be run from Server with the following command:
 ```
-make check
+$ make check
 ```
 or from ServerTest with:
 ```
-make
+$ make
+$ ./test
 ```

@@ -6,7 +6,7 @@
 *.exe
 :
 # Build Files
-Makefile
+/Makefile
 autom4te.cache
 build-aux
 aclocal.m4

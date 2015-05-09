@@ -10,5 +10,24 @@ autoreconf -i
 ./configure
 make
 
- g++ -Wall -pedantic -o test UserEntity.cc ../../Entity/UserEntity.cpp ../../Entity/Entity.cpp -lgtest -lgtest_main -lpthread
+
+Google Test:
+
+sudo apt-get install -y google-mock
+sudo apt-get install -y cmake --quiet
+
+cd /usr/src/gtest
+sudo cmake -E make_directory build
+sudo cmake -E chdir build cmake .. >> /dev/null
+sudo cmake --build build >> /dev/null
+
+
+#check output
+ls build/libgtest*
+build/libgtest.a  build/libgtest_main.a
+
+sudo cp build/libgtest* /usr/lib/
+sudo rm -rf build
+
+
 
