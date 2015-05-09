@@ -16,7 +16,7 @@ import controller.auth.RegisterController;
 
 /**
  * 
- * @author Blénesi Attila
+ * @author Blenesi Attila
  *
  */
 public class RegisterPanel extends JPanel {

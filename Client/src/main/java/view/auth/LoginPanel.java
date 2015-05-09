@@ -18,7 +18,7 @@ import model.ViewConstraints;
 import controller.auth.LoginController;
 /**
  * 
- * @author Blénesi Attila
+ * @author Blenesi Attila
  *
  */
 public class LoginPanel extends JPanel {

@@ -15,7 +15,7 @@ import model.ViewConstraints;
 /**
  * The sees this panel first contains welcome text.
  * May contain help for the usage in advance.
- * @author Bl�nesi Attila
+ * @author Blenesi Attila
  *
  */
 public class WelcomePanel extends JPanel{
