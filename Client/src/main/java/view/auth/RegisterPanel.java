@@ -47,7 +47,7 @@ public class RegisterPanel extends JPanel {
 	}
 	
 	private void initializeComponents(RegisterController controller){		
-		registerLabel = new JLabel("Get an acount");
+		registerLabel = new JLabel("Get an account");
 		usernameLable = new JLabel("Username:");
 		emailLable = new JLabel("Email:");
 		passwordLable = new JLabel("Password:");
