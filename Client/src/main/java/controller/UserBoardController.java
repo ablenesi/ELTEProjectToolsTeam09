@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -27,7 +28,7 @@ public class UserBoardController implements ListSelectionListener, ActionListene
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		int index = e.getLastIndex();
+		int index = ((JList)e.getSource()).getSelectedIndex();
 
 		User user = controller.getModel().getUsers().get(index);
 		System.out.println(user.getUserName()+" Open NEW tab");
