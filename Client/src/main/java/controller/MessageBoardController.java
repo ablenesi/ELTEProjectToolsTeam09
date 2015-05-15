@@ -20,11 +20,13 @@ public class MessageBoardController implements ActionListener{
 		MessageBoard messageBoard =(MessageBoard)((JButton)e.getSource()).getParent();
 		//System.out.println("Send this message: "+messageBoard.getMessage()+" to: "+messageBoard.getUser().getUserName());
 		String mess = messageBoard.getMessage();
-		System.out.println("in controller "+mess);
-		Message messageToServet = new Message(messageBoard.getUser().getUserName(),mess);
-		Message messageToDoc = new Message(controller.getModel().getAuthUser().getUserName(),mess);
-		messageToDoc.printMessage(messageBoard.getUser().getDoc());
-		controller.getServerHandler().sendMessage(messageToServet);
+		if(!mess.equals("")){
+			System.out.println("in controller "+mess);
+			Message messageToServet = new Message(messageBoard.getUser().getUserName(),mess);
+			Message messageToDoc = new Message(controller.getModel().getAuthUser().getUserName(),mess);
+			messageToDoc.printMessage(messageBoard.getUser().getDoc());
+			controller.getServerHandler().sendMessage(messageToServet);
+		}
 	}
 
 }
