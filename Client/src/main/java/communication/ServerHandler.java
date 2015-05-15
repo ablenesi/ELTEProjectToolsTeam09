@@ -25,8 +25,9 @@ public class ServerHandler extends Thread{
 	
 	private static final String host = "localhost";
 	private static final int	port = 9032;
+	private static final int	REQUEST_REFRESH_RATE = 2500;
 	
-	private static final String REGISTER_KEYWORD 	= "REG"; 
+	static final String REGISTER_KEYWORD 	= "REG"; 
 	private static final String LOGIN_KEYWORD 		= "LOG";
 	private static final String SEND_MESS_KEYWORD 	= "MES";
 	private static final String GET_DATA_KEYWORD 	= "UPD";
@@ -291,7 +292,7 @@ public class ServerHandler extends Thread{
 		while(true){
 			getData();
 			try {
-				sleep(1000);
+				sleep(REQUEST_REFRESH_RATE);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
