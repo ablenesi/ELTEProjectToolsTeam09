@@ -21,9 +21,10 @@ public class MessageBoardController implements ActionListener{
 		//System.out.println("Send this message: "+messageBoard.getMessage()+" to: "+messageBoard.getUser().getUserName());
 		String mess = messageBoard.getMessage();
 		System.out.println("in controller "+mess);
-		Message message = new Message(messageBoard.getUser().getUserName(),mess);
-		message.printMessage(messageBoard.getUser().getDoc());
-		controller.getServerHandler().sendMessage(message);
+		Message messageToServet = new Message(messageBoard.getUser().getUserName(),mess);
+		Message messageToDoc = new Message(controller.getModel().getAuthUser().getUserName(),mess);
+		messageToDoc.printMessage(messageBoard.getUser().getDoc());
+		controller.getServerHandler().sendMessage(messageToServet);
 	}
 
 }
