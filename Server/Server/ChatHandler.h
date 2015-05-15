@@ -1,7 +1,6 @@
 #ifndef CHATHANDLER_H
 #define CHATHANDLER_H
 
-#include <mutex>
 #include <iostream>
 
 #include "../GlobalClass.h"

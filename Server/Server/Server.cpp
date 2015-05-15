@@ -52,15 +52,16 @@ void Server::handleClient(int clientSocket) {
 	
 
 	while ((n = read(clientSocket,buffer, sizeof(buffer))) > 0) {		
-		std::cout << "Running!! " << n << std::endl;
-
 		buffer[3] = 0;
 		buffer[n] = 0;
 
 		command = buffer;
 		message = (buffer + 4);
 		message = GlobalClass::trim(message);
-	
+		
+		std::cout << "Command from " << clientSocket << ": " << command + message << std::endl;
+
+
 		if (command == "REG") {
 			response = chatHandler.registerUser(message);
 		} else if (command == "LOG"){
@@ -74,7 +75,7 @@ void Server::handleClient(int clientSocket) {
 			break;
 		}
 		response += "\n";
-
+		std::cout << "Sending data to " << clientSocket << ": " << response;
 		const char* responseData = response.c_str();
 		n = write(clientSocket,responseData, response.length()*sizeof(char));
 	}
