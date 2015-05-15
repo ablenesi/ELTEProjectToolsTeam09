@@ -25,7 +25,6 @@ public class Controller {
 		messageBoardController = new MessageBoardController(this);
 		model = new Model();
 		model.addUser(new User("Public Chat"));
-		model.addUser(new User("Pasd"));	
 	}	
 	
 	public void setMainFrame(MainFrame mainFrame) {
