@@ -30,8 +30,12 @@ public class Controller {
 	
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;		
-		serverHandel = mainFrame.getServerHandler();
-		serverHandel.connect();
+		serverHandel = mainFrame.getServerHandler();		
+		if(serverHandel.connect()){
+			loadRightPanel("LOGIN");
+	        mainFrame.pack();
+	        mainFrame.setVisible(true);
+		}
 	}
 	
 

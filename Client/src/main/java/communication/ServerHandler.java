@@ -47,13 +47,15 @@ public class ServerHandler extends Thread{
 		this.controller = controller;
 	}
 
-	public void connect(){
+	public boolean connect(){
 		
 		try {
 			client = new Socket(host, port);
 		} catch (IOException e) {
-			System.err.println("[EXCEPTION] connecting to server");
-			e.printStackTrace();
+			System.err.println("[EXCEPTION] connecting to server");			
+			JOptionPane.showMessageDialog(null, "Connection to server could not be made. Try again later.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		System.out.println("Connection to server SUCESSFULL");
 		
@@ -64,7 +66,9 @@ public class ServerHandler extends Thread{
 		} catch (IOException e) {
 			System.err.println("[EXCEPTION] creating streams");
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	public boolean register(String userName, String passwd, String email){
