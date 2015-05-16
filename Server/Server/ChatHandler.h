@@ -20,6 +20,7 @@ public:
 	std::string loginUser(const std::string &request);
 	std::string updateUser(const std::string token);
 	std::string messageUser(const std::string &request);
+	void checkOnlineUsers();
 private:
 	UserEntity createUserFromRequest(const std::string &request);
 	MessageEntity createMessageFromRequest(const std::string &request);

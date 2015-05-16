@@ -36,6 +36,8 @@ public:
 	static const int INCORRECT_USER_OR_PASSWOROD;
 	static const int DATABASE_ERROR;
 
+	static const std::chrono::milliseconds ONLINECHECK_SLEEPTIME;
+
 	static std::string trim(const std::string& str, const std::string& whitespace = " \t\n");
 	static std::vector<std::string> split(const std::string &s, char delim);
 	static std::string converter(int a);
