@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
 import controller.UserBoardController;
@@ -59,6 +60,7 @@ public class UserBoard extends JPanel implements PropertyChangeListener{
 		userList = new JList<User>(userListModel);
 		userList.addListSelectionListener(controller);
 		userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		userList.setCellRenderer(model.getCellRenderer());
 		model.getPropertyChangeSupport().addPropertyChangeListener(Model.USER, this);
 
 		scrollPanel = new JScrollPane(userList);
@@ -81,7 +83,7 @@ public class UserBoard extends JPanel implements PropertyChangeListener{
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weighty = 1;
 		c.gridy = 2;
-		this.add(logoutButton,c);
+		//this.add(logoutButton,c);
 	}
 
 	@Override

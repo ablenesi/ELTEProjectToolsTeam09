@@ -49,7 +49,7 @@ public class MainFrame extends JFrame{
 		serverHandler = new ServerHandler(controller);
 		initializeComponents(controller);
 		addComponents();
-		setResizable(false);
+		//setResizable(false);
 	}
 	
 	private void initializeComponents(Controller controller){

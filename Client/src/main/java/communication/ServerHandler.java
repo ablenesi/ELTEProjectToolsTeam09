@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -32,6 +33,7 @@ public class ServerHandler extends SwingWorker<Void, String>{
 	private static final String SEND_MESS_KEYWORD 	= "MES";
 	private static final String GET_DATA_KEYWORD 	= "UPD";
 	private static final String GET_LOGOUT_KEYWORD 	= "OUT";
+	
 	private static final String	SEPARATOR			= ""+(char)37;
 	private static final String	SEPARATOR2			= ""+(char)38;
 	private static final String	SEPARATOR3			= ""+(char)39;
@@ -230,17 +232,25 @@ public class ServerHandler extends SwingWorker<Void, String>{
 
 	private void processUsers(String[] messageParts) {
 		boolean add;
+		List<User> onlineUsers = new ArrayList<User>();
 		String[] users = messageParts[1].split(SEPARATOR2);
 		for (int i = 0; i < users.length; i++) {
 			add = true;
 			for (User user: controller.getModel().getUsers()) {					
-				if(user.getUserName().equals(users[i])) add = false;
+				if(user.getUserName().equals(users[i])){ 
+					add = false;
+					onlineUsers.add(user);
+				}
 			}
 			if (add){
 				System.out.println("ADD USER "+ users[i]);
-				controller.getModel().addUser(new User(users[i]));
-			}			
+				User newUser = new User(users[i]);
+				controller.getModel().addUser(newUser);
+				onlineUsers.add(newUser);
+			}		
 		}
+		controller.getModel().setOnlineUsers(onlineUsers);
+		controller.getMainFrame().repaint();
 	}
 
 	private void processPublicMessages(String[] messageParts) {
