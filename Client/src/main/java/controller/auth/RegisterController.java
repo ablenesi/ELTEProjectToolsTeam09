@@ -28,15 +28,17 @@ public class RegisterController implements ActionListener{
 				pass.length()>=6 && pass.length() <=  12 && //Check if it's between 6 and 12 characters long
 				pass.matches(".*\\d+.*") && //Check if it contains number
 				pass.matches("\\w+") && //Check if it contains only numbers, english characters or underscore
-				pass.equals(rePass)); //&& //Check if it is equal to the password the user gave the second time
-				//pass.matches("[a-z[0-9]]"));  //Contains only english characters OR numbers
+				pass.equals(rePass)); //Check if it is equal to the password the user gave the second time
 	}
 	private boolean isEmailEligible(String email){
 		String tmpStr0[] = email.split("@");
-		String tmpStr1[] = tmpStr0[1].split("\\.");
-		System.out.println(tmpStr0.length+" "+tmpStr1.length+tmpStr0[0]);
-		return (tmpStr0[0].matches("\\w+") && tmpStr1[0].matches("\\w+") && tmpStr1[1].matches("\\w+") && //Contains only english characters OR numbers
-				tmpStr0.length == 2 && tmpStr1.length == 2); //Check if the format of the password is eligible (name@domain.suffix)	  
+		if(tmpStr0.length == 2){
+			String tmpStr1[] = tmpStr0[1].split("\\.");
+			return (tmpStr0[0].matches("\\w+") && tmpStr1[0].matches("\\w+") && tmpStr1[1].matches("\\w+") && //Contains only english characters OR numbers
+					tmpStr0.length == 2 && tmpStr1.length == 2); //Check if the format of the password is eligible (name@domain.suffix)
+		}else{
+			return false;
+		}
 	}
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton) e.getSource();
@@ -45,15 +47,20 @@ public class RegisterController implements ActionListener{
 		case ViewConstraints.REGISTER_BUTTON_TEXT:
 			if(isPasswordEligible(registerPanel.getPassword(),registerPanel.getRePassword()) && isEmailEligible(registerPanel.getEmail())){
 				registerToServer(registerPanel.getUsername(), registerPanel.getEmail(), registerPanel.getPassword(), registerPanel.getRePassword());
+			}else if(!isEmailEligible(registerPanel.getEmail())){
+				JOptionPane.showMessageDialog(new JFrame("Error"),"Make sure you gave a valid E-mail address!");
 			}else{
-				JOptionPane.showMessageDialog(new JFrame("Error"),"Password can contain only english characters, numbers and _.\nIt has to contain at least: \none uppercase character,\none lowercase character,\na number,\nand has to be between 6 and 12 characters.\nMake sure you gave a valid e-mail address!");
+				if(registerPanel.getPassword().equals(registerPanel.getRePassword())){
+					JOptionPane.showMessageDialog(new JFrame("Error"),"Password can contain only english characters, numbers and _.\nIt has to contain at least: \none uppercase character,\none lowercase character,\na number,\nand has to be between 6 and 12 characters.");
+				}else{
+					JOptionPane.showMessageDialog(new JFrame("Error"),"Passwords doesn't match!");
+				}
 			}
 			break;
 		case ViewConstraints.LOGIN_BUTTON_TEXT:
 			mainController.loadRightPanel("LOGIN");
 			break;		
 		}
-		
 	}
 	
 }
