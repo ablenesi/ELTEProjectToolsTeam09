@@ -55,7 +55,7 @@ public class MessageBoard extends JPanel {
 		inputText.setBorder(BorderFactory.createCompoundBorder(
 					ViewConstraints.BASIC_BORDER, 
 		            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-		
+		inputText.addKeyListener(controller);
 		sendButton.addActionListener(controller);
 		
 		messagePane = new JTextPane();
@@ -109,8 +109,11 @@ public class MessageBoard extends JPanel {
 	
 	public String getMessage(){		
 		String mess = inputText.getText();
-		System.out.println("in get" + mess);
-		inputText.setText("");
+		System.out.println("in get" + mess);		
 		return mess;
+	}
+
+	public void setMessage(String string) {
+		inputText.setText("");
 	}
 }
