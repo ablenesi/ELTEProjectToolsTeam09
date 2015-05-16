@@ -80,7 +80,7 @@ public class ServerHandler extends Thread{
 				
 		System.out.println("Message sent to server: " + messageToServer);
 		try {
-			return handleRegisterServerMessage(br.readLine());
+			return handleRegister(br.readLine());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -95,7 +95,7 @@ public class ServerHandler extends Thread{
 				
 		System.out.println("Message sent to server: " + messageToServer);
 		try {
-			return handleLoginServerMessage(br.readLine());
+			return handleLogin(br.readLine());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -122,10 +122,9 @@ public class ServerHandler extends Thread{
 		messageToServer = GET_DATA_KEYWORD + SEPARATOR + controller.getModel().getAuthUser().getToken();
 		pw.println(messageToServer);
 		pw.flush();
-				
-		//System.out.println("Message sent to server: " + messageToServer);
+		
 		try {
-			handleDataServerMessage(br.readLine());
+			handleData(br.readLine());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -148,7 +147,7 @@ public class ServerHandler extends Thread{
 		}
 	}
 	
-	private boolean handleRegisterServerMessage(String serverMessage){
+	private boolean handleRegister(String serverMessage){
 		String[] messageParts = serverMessage.split(SEPARATOR);
 		int error = Integer.parseInt(messageParts[0]);
 		switch (error) {
@@ -170,7 +169,7 @@ public class ServerHandler extends Thread{
 		return false;
 	}
 		
-	private boolean handleLoginServerMessage(String serverMessage){
+	private boolean handleLogin(String serverMessage){
 		String[] messageParts = serverMessage.split(SEPARATOR);
 		int error = Integer.parseInt(messageParts[0]);
 		switch (error) {
@@ -194,56 +193,13 @@ public class ServerHandler extends Thread{
 		return false;
 	}
 	
-	private boolean handleDataServerMessage(String serverMessage){
+	private boolean handleData(String serverMessage){
 		String[] messageParts = serverMessage.split(SEPARATOR);
 		int error = Integer.parseInt(messageParts[0]);
-		boolean add = true;
-		User fromUser = null;
 		switch (error) {
 		case REQUEST_OK:			
-			switch (messageParts.length) {
-			case 3:
-				String[] messages = messageParts[2].split(SEPARATOR2);
-				for (int i = 0; i < messages.length; i++) {
-					String[] aMessage = messages[i].split(SEPARATOR3);
-					add = true;
-					for (User user: controller.getModel().getUsers()) {					
-						if(user.getUserName().equals(aMessage[0])) {
-							add = false;
-							break;
-						}
-					}					
-					if (add){
-						System.out.println("ADD USER "+ aMessage[0]);
-						fromUser = new User(aMessage[0]);
-						controller.getModel().addUser(fromUser);
-					}else{
-						for (User user: controller.getModel().getUsers()) {					
-							if(user.getUserName().equals(aMessage[0])) {
-								fromUser = user;
-								break;
-							}
-						}
-					}
-					fromUser.addMessage(new Message(fromUser.getUserName(),aMessage[1]));
-					fromUser.update();
-				}
-			case 2:
-				String[] users = messageParts[1].split(SEPARATOR2);
-				for (int i = 0; i < users.length; i++) {
-					add = true;
-					for (User user: controller.getModel().getUsers()) {					
-						if(user.getUserName().equals(users[i])) add = false;
-					}
-					if (add){
-						System.out.println("ADD USER "+ users[i]);
-						controller.getModel().addUser(new User(users[i]));
-					}			
-				}			
-			}
-						
+			hanleOkData(messageParts);
 			return true;
-			
 		case INCORRECT_REQUEST_FORMAT:
 			System.err.println("Oups! \nSomethin went wrong!\n Request format was invalid");
 			break;
@@ -257,6 +213,60 @@ public class ServerHandler extends Thread{
 			break;
 		}
 		return false;
+	}
+
+	private void hanleOkData(String[] messageParts) {
+		switch (messageParts.length) {
+		case 3:
+			processMessages(messageParts);
+		case 2:
+			processUsers(messageParts);			
+		}				
+	}
+
+	private void processUsers(String[] messageParts) {
+		boolean add;
+		String[] users = messageParts[1].split(SEPARATOR2);
+		for (int i = 0; i < users.length; i++) {
+			add = true;
+			for (User user: controller.getModel().getUsers()) {					
+				if(user.getUserName().equals(users[i])) add = false;
+			}
+			if (add){
+				System.out.println("ADD USER "+ users[i]);
+				controller.getModel().addUser(new User(users[i]));
+			}			
+		}
+	}
+
+	private void processMessages(String[] messageParts) {
+		boolean add;
+		User fromUser = null;
+		String[] messages = messageParts[2].split(SEPARATOR2);
+		for (int i = 0; i < messages.length; i++) {
+			String[] aMessage = messages[i].split(SEPARATOR3);
+			add = true;
+			for (User user: controller.getModel().getUsers()) {					
+				if(user.getUserName().equals(aMessage[0])) {
+					add = false;
+					break;
+				}
+			}					
+			if (add){
+				System.out.println("ADD USER "+ aMessage[0]);
+				fromUser = new User(aMessage[0]);
+				controller.getModel().addUser(fromUser);
+			}else{
+				for (User user: controller.getModel().getUsers()) {					
+					if(user.getUserName().equals(aMessage[0])) {
+						fromUser = user;
+						break;
+					}
+				}
+			}
+			fromUser.addMessage(new Message(fromUser.getUserName(),aMessage[1]));
+			fromUser.update();
+		}
 	}
 	
 	private boolean handleServerMessage(String serverMessage){
@@ -289,7 +299,7 @@ public class ServerHandler extends Thread{
 	
 	@Override
 	public void run(){
-		while(true){
+		while(true){			
 			getData();
 			try {
 				sleep(REQUEST_REFRESH_RATE);

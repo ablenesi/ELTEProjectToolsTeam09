@@ -16,7 +16,7 @@ public class Message {
 	public void printMessage(Document doc){
 		try {
 			doc.insertString(doc.getLength(), "["+userName+"]: ", ViewConstraints.NAME );
-			doc.insertString(doc.getLength(), message+"\n", null );
+			doc.insertString(doc.getLength(), message.trim()+"\n", null );
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
