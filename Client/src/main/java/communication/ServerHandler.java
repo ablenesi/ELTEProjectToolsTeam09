@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 import javax.swing.JOptionPane;
-
-import org.omg.CORBA.FREE_MEM;
+import javax.swing.SwingWorker;
 
 import controller.Controller;
 import model.Message;
 import model.User;
 
-public class ServerHandler extends Thread{
+public class ServerHandler extends SwingWorker<Void, String>{
 
 	private Controller controller;
 	
@@ -118,17 +118,19 @@ public class ServerHandler extends Thread{
 		}
 	}
 	
-	public void getData(){
+	public String getData(){
 		messageToServer = GET_DATA_KEYWORD + SEPARATOR + controller.getModel().getAuthUser().getToken();
 		pw.println(messageToServer);
 		pw.flush();
 		
+		String data = null;
 		try {
-			handleData(br.readLine());
+			data = br.readLine();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
 		}
+		return data;
 	}
 	
 	public void logout(){
@@ -297,15 +299,25 @@ public class ServerHandler extends Thread{
 		return false;
 	}
 	
+
 	@Override
-	public void run(){
+	protected Void doInBackground() throws Exception {
 		while(true){			
-			getData();
+			publish(getData());
 			try {
-				sleep(REQUEST_REFRESH_RATE);
+				Thread.sleep(REQUEST_REFRESH_RATE);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}		
+		}			
 	}
+	
+	  @Override
+	     protected void process(List<String> chunks) {
+	         for (String data: chunks) {
+	             handleData(data);
+	         }
+	     }
+	
+	
 }
