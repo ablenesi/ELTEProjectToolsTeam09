@@ -20,10 +20,16 @@ public class MessageBoardController implements ActionListener, KeyListener{
 	private void sendMessage(MessageBoard messageBoard) {
 		String mess = messageBoard.getMessage();
 		if(!mess.equals("")){
-			System.out.println("in controller "+mess);
-			Message messageToServet = new Message(messageBoard.getUser().getUserName(),mess);
-			Message messageToDoc = new Message(controller.getModel().getAuthUser().getUserName(),mess);
-			messageToDoc.printMessage(messageBoard.getUser().getDoc());
+			messageBoard.setMessage("");
+			Message messageToServet = null;
+			Message messageToDoc = null;
+			if(messageBoard.getUser().getUserName().equals("Public Chat")){
+				messageToServet = new Message("COMMON",mess);
+			}else{
+				messageToServet = new Message(messageBoard.getUser().getUserName(),mess);
+				messageToDoc = new Message(controller.getModel().getAuthUser().getUserName(),mess);
+				messageToDoc.printMessage(messageBoard.getUser().getDoc());
+			}			
 			controller.getServerHandler().sendMessage(messageToServet);
 		}
 	}
