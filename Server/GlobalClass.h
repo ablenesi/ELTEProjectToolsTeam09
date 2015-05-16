@@ -5,11 +5,15 @@
 #include <ctime>
 #include <sstream>
 #include <vector>
+#include <mutex>
+
 
 class GlobalClass {
+private:
+	static std::mutex _muTrim;
+	static std::mutex _muSplit;
+	static std::mutex _muConvert;
 public:
-
-
 	static const std::string DATABASE_HOST;
 	static const std::string DATABASE_NAME;
 	static const std::string DATABASE_USER;
@@ -32,9 +36,12 @@ public:
 	static const int INCORRECT_USER_OR_PASSWOROD;
 	static const int DATABASE_ERROR;
 
+	static const std::chrono::milliseconds ONLINECHECK_SLEEPTIME;
+
 	static std::string trim(const std::string& str, const std::string& whitespace = " \t\n");
 	static std::vector<std::string> split(const std::string &s, char delim);
 	static std::string converter(int a);
+	static long currentTimeMillis();
 };
 
 

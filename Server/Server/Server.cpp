@@ -3,6 +3,7 @@
 Server::Server(int port):PORT(port) {
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	isRunning = false;
 
 	if (sockfd < 0) 
 		error("ERROR opening socket");
@@ -28,11 +29,15 @@ void Server::error(const char *msg)
 
 
 void Server::run() {
+	isRunning = true;
 	listen(sockfd,5);
 	
 	sockaddr_in cli_addr;
 	socklen_t clilen = sizeof(cli_addr);
 	int newsockfd;
+
+	std::thread offLineChecker(&Server::onlineCheckThread, this);
+	offLineChecker.detach();
 
 	std::cout << "Waiting for clients..." << std::endl;
 
@@ -51,16 +56,17 @@ void Server::handleClient(int clientSocket) {
 	std::string command, message, response;
 	
 
-	while ((n = read(clientSocket,buffer, sizeof(buffer))) > 0) {		
-		std::cout << "Running!! " << n << std::endl;
-
+	while (isRunning && ((n = read(clientSocket,buffer, sizeof(buffer))) > 0)) {		
 		buffer[3] = 0;
 		buffer[n] = 0;
 
 		command = buffer;
 		message = (buffer + 4);
 		message = GlobalClass::trim(message);
-	
+		
+		std::cout << "Command from " << clientSocket << ": " << command + message << std::endl;
+
+
 		if (command == "REG") {
 			response = chatHandler.registerUser(message);
 		} else if (command == "LOG"){
@@ -74,11 +80,18 @@ void Server::handleClient(int clientSocket) {
 			break;
 		}
 		response += "\n";
-
+		std::cout << "Sending data to " << clientSocket << ": " << response;
 		const char* responseData = response.c_str();
 		n = write(clientSocket,responseData, response.length()*sizeof(char));
 	}
 	close(clientSocket);
+}
+
+void Server::onlineCheckThread() {
+	while(isRunning) {
+		chatHandler.checkOnlineUsers();
+		std::this_thread::sleep_for(GlobalClass::ONLINECHECK_SLEEPTIME);
+	}
 }
 
 

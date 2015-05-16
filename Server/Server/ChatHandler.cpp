@@ -37,11 +37,13 @@ std::string ChatHandler::registerUser(const std::string &request) {
 		}
 	}
 	response = GlobalClass::converter(code);
-
 	return response;
 }
 
 std::string ChatHandler::loginUser(const std::string &request) {
+
+	std::lock_guard<std::mutex> lock(_mu);
+
 	UserEntity user = createUserFromRequest(request);
 	std::string response, token;
 	int code;
@@ -81,6 +83,8 @@ std::string ChatHandler::loginUser(const std::string &request) {
 
 std::string ChatHandler::updateUser(const std::string token) {
 	int code;
+	std::lock_guard<std::mutex> lock(_mu);
+
 	UserEntity user = onlineUsers[token];
 	
 	std::string onlineU = "";
@@ -106,7 +110,9 @@ std::string ChatHandler::updateUser(const std::string token) {
 		response = onlineU + GlobalClass::DELIMITER1 + privateMsg + GlobalClass::DELIMITER1 + publicMsg;
 		//for all the messages
 		//onlineUsers[token].setLastUpdate(0);
-		onlineUsers[token].setLastUpdate(time(0));
+
+		std::cout << onlineUsers[token].getUsername() << ": " <<onlineUsers[token].getLastUpdate() << "| |" << privateMessageList.size() << std::endl;
+		onlineUsers[token].setLastUpdate(GlobalClass::currentTimeMillis());
 		code = GlobalClass::REQUEST_OK;
 	} else {
 		code = GlobalClass::INCORRECT_REQUEST;
@@ -137,18 +143,16 @@ std::string ChatHandler::messageUser(const std::string &request) {
 
 
 UserEntity ChatHandler::createUserFromRequest(const std::string &request) {
-	std::lock_guard<std::mutex> lock(_mu);
-
 	std::vector<std::string> userData = GlobalClass::split(request, GlobalClass::DELIMITER1);
 	UserEntity user;
-	if (userData.size() == 3) user =  UserEntity(userData[0], userData[1], userData[2], time(0));
+	if (userData.size() == 3) user =  UserEntity(userData[0], userData[1], userData[2], GlobalClass::currentTimeMillis());
 	else if (userData.size() == 2) user = UserEntity(userData[0], userData[1], "", 0);
 
 	return user;
 }
 
 MessageEntity ChatHandler::createMessageFromRequest(const std::string &request) {
-	std::lock_guard<std::mutex> lock(_mu);
+	
 	std::vector<std::string> messageData = GlobalClass::split(request, GlobalClass::DELIMITER1);
 	
 	if (messageData.size() < 3) {return MessageEntity();}
@@ -162,7 +166,19 @@ MessageEntity ChatHandler::createMessageFromRequest(const std::string &request) 
 		target.setId(-1);
 	}
 
-	MessageEntity msg( sender,  target, messageData[2], time(0));
+	MessageEntity msg( sender,  target, messageData[2], GlobalClass::currentTimeMillis());
 	return msg;
+}
+
+void ChatHandler::checkOnlineUsers() {
+	auto itr = onlineUsers.begin();
+	long threshold =  GlobalClass::currentTimeMillis() - GlobalClass::ONLINECHECK_SLEEPTIME.count();
+	while (itr != onlineUsers.end()) {
+		if (itr->second.getLastUpdate() < threshold) {
+			onlineUsers.erase(itr++);
+		} else {
+			++itr;
+		}
+	}
 }
 

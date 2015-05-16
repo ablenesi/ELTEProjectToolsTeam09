@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.text.Document;
@@ -30,6 +31,7 @@ public class MessageBoard extends JPanel {
 	private JButton sendButton;
 	private JTextArea inputText;
 	private JTextPane messagePane;
+	private JScrollPane scrollPane;
 	private Document doc;
 	
 	private GridBagConstraints c;
@@ -47,23 +49,26 @@ public class MessageBoard extends JPanel {
 	private void initializeComponents(MessageBoardController controller){
 		currentChat = new JLabel("You chat with: "+user.getUserName());
 		currentChat.setFont(ViewConstraints.TITLE_LABLE_FONT);
-		sendButton = new JButton(ViewConstraints.SEND_BUTTON_TEXT);
+		sendButton = new JButton(ViewConstraints.SEND_BUTTON_TEXT);		
 		inputText = new JTextArea();
 
 		inputText.setBorder(BorderFactory.createCompoundBorder(
 					ViewConstraints.BASIC_BORDER, 
 		            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-		
+		inputText.addKeyListener(controller);
 		sendButton.addActionListener(controller);
 		
 		messagePane = new JTextPane();
 		doc = messagePane.getDocument();
 		
-		messagePane.setEditable(false);
-		messagePane.setBackground(ViewConstraints.BASIC_BG_COLOR);
-		messagePane.setBorder(BorderFactory.createCompoundBorder(
+		messagePane.setEditable(false);		
+		scrollPane = new JScrollPane(messagePane);
+		scrollPane.setPreferredSize(new Dimension(ViewConstraints.LEFT_PANEL_WIDTH-10,ViewConstraints.PANEL_HEIGHT/3-10));
+		scrollPane.setBackground(ViewConstraints.BASIC_BG_COLOR);
+		scrollPane.setBorder(BorderFactory.createCompoundBorder(
 				ViewConstraints.BASIC_BORDER, 
 	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		
 		c = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.setPreferredSize(new Dimension(ViewConstraints.LEFT_PANEL_WIDTH-10,ViewConstraints.PANEL_HEIGHT-10));
@@ -73,12 +78,12 @@ public class MessageBoard extends JPanel {
 		c.gridy = 0;
 		c.gridx = 0;
 		c.weightx = 1;
-		c.weighty = 1;
+		c.weighty = 1;		
 		this.add(currentChat, c);		
 		c.weighty = 20;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 1;	
-		this.add(messagePane,c);
+		this.add(scrollPane,c);
 		c.weighty = 5;
 		c.gridy = 2;
 		c.insets = new Insets(10, 0, 0, 0);
@@ -104,8 +109,10 @@ public class MessageBoard extends JPanel {
 	
 	public String getMessage(){		
 		String mess = inputText.getText();
-		System.out.println("in get" + mess);
-		inputText.setText("");
 		return mess;
+	}
+
+	public void setMessage(String string) {
+		inputText.setText("");
 	}
 }

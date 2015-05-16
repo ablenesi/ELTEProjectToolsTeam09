@@ -22,7 +22,7 @@ public class LoginController implements ActionListener{
 		if(mainController.getServerHandler().login(userName, password)){
 			mainController.getModel().getAuthUser().setUserName(userName);
 			mainController.loadRightPanel("USER_BOARD");
-			mainController.getServerHandler().start();
+			mainController.getServerHandler().execute();
 		}
 	}
 

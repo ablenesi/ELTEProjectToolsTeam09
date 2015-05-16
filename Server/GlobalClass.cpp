@@ -1,6 +1,10 @@
 #include "GlobalClass.h"
 
 
+std::mutex GlobalClass::_muTrim;
+std::mutex GlobalClass::_muSplit;
+std::mutex GlobalClass::_muConvert;
+
 const std::string GlobalClass::DATABASE_HOST = "tcp://127.0.0.1:3306";
 const std::string GlobalClass::DATABASE_NAME = "chat_db";
 
@@ -25,8 +29,12 @@ const char GlobalClass::DELIMITER3 = (char)39;
 
 const int GlobalClass::PORT_NUMBER = 9032;
 
+const std::chrono::milliseconds GlobalClass::ONLINECHECK_SLEEPTIME = std::chrono::milliseconds(5000);
+
 
 std::vector<std::string> GlobalClass::split(const std::string &s, char delim) {
+	std::lock_guard<std::mutex> lock(_muSplit);
+
 	std::vector<std::string> elems;
 	std::stringstream ss(s);
 	std::string item;
@@ -39,6 +47,8 @@ std::vector<std::string> GlobalClass::split(const std::string &s, char delim) {
 
 std::string GlobalClass::trim(const std::string& str, const std::string& whitespace)
 {
+	std::lock_guard<std::mutex> lock(_muTrim);
+
 	const auto strBegin = str.find_first_not_of(whitespace);
 	if (strBegin == std::string::npos)
 		return ""; // no content
@@ -50,6 +60,7 @@ std::string GlobalClass::trim(const std::string& str, const std::string& whitesp
 }
 
 std::string GlobalClass::converter(int a) {
+	std::lock_guard<std::mutex> lock(_muConvert);
 	std::stringstream buffer;
 	std::string strin;
 	buffer << a;
@@ -58,3 +69,10 @@ std::string GlobalClass::converter(int a) {
 	buffer.clear();
 	return strin;
 }
+
+long GlobalClass::currentTimeMillis() {
+	std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+	std::chrono::system_clock::now().time_since_epoch());	
+	return ms.count();
+}
+
