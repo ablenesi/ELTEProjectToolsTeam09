@@ -170,3 +170,15 @@ MessageEntity ChatHandler::createMessageFromRequest(const std::string &request) 
 	return msg;
 }
 
+void ChatHandler::checkOnlineUsers() {
+	auto itr = onlineUsers.begin();
+	long threshold =  GlobalClass::currentTimeMillis() - GlobalClass::ONLINECHECK_SLEEPTIME.count();
+	while (itr != onlineUsers.end()) {
+		if (itr->second.getLastUpdate() < threshold) {
+			onlineUsers.erase(itr++);
+		} else {
+			++itr;
+		}
+	}
+}
+

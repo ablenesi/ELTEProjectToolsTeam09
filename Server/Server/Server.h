@@ -16,12 +16,13 @@ public:
 	~Server();
 	void run();
 	const int PORT;
-
 private:
-	ChatHandler chatHandler;
 	void error(const char *msg);
 	void handleClient(int clientSocket);
+	void onlineCheckThread();
+	ChatHandler chatHandler;
 	int sockfd;
+	bool isRunning;
 };
 
 

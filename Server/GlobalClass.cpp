@@ -29,6 +29,8 @@ const char GlobalClass::DELIMITER3 = (char)39;
 
 const int GlobalClass::PORT_NUMBER = 9032;
 
+const std::chrono::milliseconds GlobalClass::ONLINECHECK_SLEEPTIME = std::chrono::milliseconds(5000);
+
 
 std::vector<std::string> GlobalClass::split(const std::string &s, char delim) {
 	std::lock_guard<std::mutex> lock(_muSplit);
