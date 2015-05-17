@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Stores data of the authenticated user.
+ */
 public class AuthUser {
 	private String name;
 	private String token;

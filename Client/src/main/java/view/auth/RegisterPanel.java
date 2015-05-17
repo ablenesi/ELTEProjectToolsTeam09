@@ -15,15 +15,15 @@ import model.ViewConstraints;
 import controller.auth.RegisterController;
 
 /**
- * 
- * @author Blenesi Attila
- *
+ * This represents the interface where users can register
  */
 public class RegisterPanel extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	// UI components
 	private JLabel registerLabel;
 	private JLabel usernameLable;
 	private JLabel emailLable;
@@ -37,15 +37,17 @@ public class RegisterPanel extends JPanel {
 	private JPasswordField rePasswordFiled;
 	
 	private JButton registerButton;
-	private JButton loginButton;
-		
-	private GridBagConstraints c;
+	private JButton loginButton;		
 	
 	public RegisterPanel(RegisterController controller) {
 		initializeComponents(controller);
 		addComponents();				
 	}
 	
+	/**
+	 * Initializes all components of the LoginPanel
+	 * @param controller
+	 */
 	private void initializeComponents(RegisterController controller){		
 		registerLabel = new JLabel("Get an account");
 		usernameLable = new JLabel("Username:");
@@ -75,12 +77,15 @@ public class RegisterPanel extends JPanel {
 		registerButton.addActionListener(controller);
 		loginButton.addActionListener(controller);
 
-		c = new GridBagConstraints();		
 		this.setLayout(new GridBagLayout());
 		this.setPreferredSize(new Dimension(ViewConstraints.RIGHT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
 	}
 	
+	/**
+	 * Adds all components to the UserBoard
+	 */
 	private void addComponents(){
+		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0.2;
 		c.fill = GridBagConstraints.BOTH;

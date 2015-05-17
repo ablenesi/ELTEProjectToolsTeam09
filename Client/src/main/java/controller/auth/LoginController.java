@@ -9,6 +9,9 @@ import view.auth.LoginPanel;
 import controller.Controller;
 import model.ViewConstraints;
 
+/**
+ * Controls the Login panel, starts login or changes to register panel.
+ */
 public class LoginController implements ActionListener{
 	
 	private Controller mainController;	
@@ -17,6 +20,13 @@ public class LoginController implements ActionListener{
 		this.mainController = mainController;
 	}		
 	
+	/**
+	 * Starts the login process via ServerHandler.login().
+	 * if login is successful: Loads the User board and
+	 * Starts the ServerHandler SwingWorker for getting data from the server. 
+	 * @param userName
+	 * @param password
+	 */
 	private void loginToServer(String userName, String password){
 		System.out.println("I try to log in "+ userName + " " + password);
 		if(mainController.getServerHandler().login(userName, password)){
@@ -26,16 +36,24 @@ public class LoginController implements ActionListener{
 		}
 	}
 
+	/**
+	 * Handles Button presses on Login panel
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton) e.getSource();
 		LoginPanel loginPanel = (LoginPanel)source.getParent();
-		System.out.println(source.getText());
+		
 		switch (source.getText()) {
 		case ViewConstraints.LOGIN_BUTTON_TEXT:
+			
+			// Login
 			loginToServer(loginPanel.getUserName(), loginPanel.getPassword());
-			break;		
+			break;	
+			
 		case ViewConstraints.REGISTER_BUTTON_TEXT:
+			
+			// Switch to RegiterPanel
 			mainController.loadRightPanel("REGISTER");
 			break;
 		}

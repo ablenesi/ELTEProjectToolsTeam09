@@ -3,6 +3,9 @@ package model;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+/**
+ * Stores data of a single message that can printed on to a Document.
+ */
 public class Message {
 	private String userName;
 	private String message;
@@ -13,6 +16,10 @@ public class Message {
 		this.message = message;
 	}
 	
+	/**
+	 * Prints the this message to the given Document.
+	 * @param doc
+	 */
 	public void printMessage(Document doc){
 		try {
 			doc.insertString(doc.getLength(), "["+userName+"]: ", ViewConstraints.NAME );

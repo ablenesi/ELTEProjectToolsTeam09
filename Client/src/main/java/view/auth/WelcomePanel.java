@@ -15,14 +15,13 @@ import model.ViewConstraints;
 /**
  * The sees this panel first contains welcome text.
  * May contain help for the usage in advance.
- * @author Blenesi Attila
- *
  */
 public class WelcomePanel extends JPanel{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private ImagePanel imagePanel;
 	
 	
@@ -31,6 +30,10 @@ public class WelcomePanel extends JPanel{
 		addComponents();
 	}
 
+	/**
+	 * Initializes all components of the WelcomePanel
+	 * @param controller
+	 */
 	private void initializeComponents(){		
 		imagePanel = new ImagePanel(null);
 		imagePanel.setPreferredSize(new Dimension(256,256));
@@ -38,6 +41,10 @@ public class WelcomePanel extends JPanel{
 		this.setPreferredSize(new Dimension(ViewConstraints.LEFT_PANEL_WIDTH,ViewConstraints.PANEL_HEIGHT));
 	} 
 
+
+	/**
+	 * Adds all components to the WelcomePanel
+	 */
 	private void addComponents(){
 		
 		add(imagePanel);
@@ -46,8 +53,6 @@ public class WelcomePanel extends JPanel{
 
 	/**
 	 * Represents a panel whit a specified image.
-	 * @author Bl�nesi Attila
-	 *
 	 */
 	private class ImagePanel extends JPanel{
 		/**

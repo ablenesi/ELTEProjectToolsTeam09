@@ -8,22 +8,32 @@ import javax.swing.border.Border;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+/**
+ * This class contains all UI styling attributes and UI text.
+ *
+ */
 public class ViewConstraints {
+	// FONTS	
 	public static final Font TITLE_LABLE_FONT 		= new Font("Thaoma", Font.PLAIN, 28);
 	public static final Font BASIC_LABLE_FONT 		= new Font("Thaoma", Font.PLAIN, 14);
 	public static final Font BUTTON_LABLE_FONT 		= new Font("Thaoma", Font.BOLD, 12);
 	public static final Font USER_NAME_LABLE_FONT 	= new Font("Thaoma", Font.PLAIN, 18);
 	
+	// BASIC SIZE
 	public static final int LEFT_PANEL_WIDTH 		= 500;
 	public static final int RIGHT_PANEL_WIDTH 		= 300;
 	public static final int PANEL_HEIGHT 			= 450;
 	
+	// UI TEXT
+	// Window title
+	public final static String TITLE 				= "Chat";
 	public static final String LOGIN_BUTTON_TEXT 	= "Sign in";
 	public static final String LOGOUT_BUTTON_TEXT 	= "Logout";
 	public static final String REGISTER_BUTTON_TEXT = "Register";
 	public static final String SEND_BUTTON_TEXT 	= "Send";
 	public static final String PUBIC_USER_NAME		= "Public Chat";
 		
+	// COLOR THEME
 	public static final Color BASIC_BORDER_COLOR 	= new Color(122,138,153);
 	public static final Color BASIC_BG_COLOR 		= new Color(240,240,240);
 	
@@ -32,15 +42,17 @@ public class ViewConstraints {
 	public static final Color USER_AUTH_COLOR		= new Color(0, 153, 51);
 	public static final Color USER_SELECTED_COLOR	= new Color(77, 148, 255);
 	
+	// BORDERS
 	public static final Border BASIC_BORDER			= BorderFactory.createLineBorder(BASIC_BORDER_COLOR);
 	public static final Border PADDING_BORDER		= BorderFactory.createEmptyBorder(10,10,10,10);
 	public static final Border USER_BORDER			= BorderFactory.createLineBorder(Color.WHITE);
 	
+	// DOCUMENT PRINT SYLES
 	public static final SimpleAttributeSet NAME 	= new SimpleAttributeSet();
 	public static final SimpleAttributeSet DATE 	= new SimpleAttributeSet();
 		
 	/**
-	 * Sets up basic text formating keywords
+	 * Sets up basic text formating keywords for writing in Document-s
 	 */
 	public static void init(){
 		StyleConstants.setForeground(NAME, new Color(0, 51, 204));		
