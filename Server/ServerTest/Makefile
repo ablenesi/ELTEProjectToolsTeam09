@@ -2,17 +2,18 @@
 
 all: test
 
-SRC = ../Entity/Entity.cpp ../Entity/UserEntity.cpp ../Entity/MessageEntity.cpp
-SRC_TEST = Entity/UserEntity.cc  Entity/MessageEntity.cc 
+SRC = ../GlobalClass.cpp ../Server/ChatHandler.cpp ../Server/Server.cpp ../Entity/Entity.cpp ../Entity/UserEntity.cpp ../Entity/MessageEntity.cpp ../Dao/Dao.cpp ../Dao/UserDao.cpp ../Dao/MessageDao.cpp
+
+SRC_TEST = GlobalClass.cc Entity/UserEntity.cc  Entity/MessageEntity.cc 
 
 OBJS = $(SRC:.cc=.o)
 OBJS += $(SRC_TEST:.cc=.o)
 
-CPPFLAGS = -Wall -pedantic
-TESTLIBFLAGS = -lgtest -lgtest_main -lpthread
+CPPFLAGS = -Wall -std=gnu++0x
+TESTLIBFLAGS = -lgtest -lgtest_main -lpthread -lmysqlcppconn
 
 test: $(OBJS)
-	g++ $(OBJS) -o test $(TESTLIBFLAGS)
+	g++ $(CPPFLAGS) $(OBJS) -o test $(TESTLIBFLAGS)
 
 %.o: %.cc
 	g++ -c $(CPPFLAGS) $< -o $@
