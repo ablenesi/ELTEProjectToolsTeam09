@@ -20,4 +20,21 @@ public class ModelTest {
 		model.addUser(user);
 		assertTrue(list.equals(model.getUsers()));	
 	}
+	
+	@Test
+	public void onlineUsersTest(){
+		Model model = new Model();
+		ArrayList<User> testList = new ArrayList<User>();
+		User user = new User("Test");
+		testList.add(user);
+		model.setOnlineUsers(testList);
+		assertTrue(testList.equals(model.getOnlineUsers()));		
+	}
+	
+	@Test
+	public void getCellRendererTest(){
+		Model model = new Model();
+		assertTrue(!model.getCellRenderer().equals(null));
+	}
+		
 }
