@@ -8,7 +8,7 @@ import javax.swing.text.Document;
 public class User {
 	private String userName;
 	private boolean active; 	// is the users panel currently open 
-	private boolean activated; // if a panel is already open for this user
+	private boolean activated; 	// if a panel is already open for this user
 	private Document doc;		// the panels document 
 	private List<Message> messages; 	
 	

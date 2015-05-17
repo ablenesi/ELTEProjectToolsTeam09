@@ -12,10 +12,9 @@ public class Model {
 	public static final String USER = "user";
 	
 	private List<User> users;
+	private List<User> onlineUsers;	
 	private AuthUser authUser;
 	private PropertyChangeSupport propertyChangeSupport;
-
-	private List<User> onlineUsers;	
 
 	private ListCellRenderer<? super User> cellRenderer;	
 	

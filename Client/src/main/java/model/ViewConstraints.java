@@ -44,8 +44,7 @@ public class ViewConstraints {
 	 */
 	public static void init(){
 		StyleConstants.setForeground(NAME, new Color(0, 51, 204));		
-		StyleConstants.setBold(NAME, true);
-		
+		StyleConstants.setBold(NAME, true);		
 
 		StyleConstants.setForeground(DATE, new Color(148, 170, 233));		
 		StyleConstants.setBold(DATE, true);
