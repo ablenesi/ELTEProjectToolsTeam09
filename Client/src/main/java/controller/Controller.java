@@ -5,6 +5,7 @@ import controller.auth.LoginController;
 import controller.auth.RegisterController;
 import model.Model;
 import model.User;
+import model.ViewConstraints;
 import view.MainFrame;
 
 public class Controller {
@@ -24,7 +25,7 @@ public class Controller {
 		userBoardController = new UserBoardController(this);
 		messageBoardController = new MessageBoardController(this);
 		model = new Model();
-		model.addUser(new User("Public Chat"));
+		model.addUser(new User(ViewConstraints.PUBIC_USER_NAME));
 	}	
 	
 	public void setMainFrame(MainFrame mainFrame) {

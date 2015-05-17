@@ -1,13 +1,17 @@
 package model_tests;
 
+
 import static org.junit.Assert.*;
 import model.AuthUser;
+import model.Message;
 
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 public class AuthUserTest {
-	
+		
 	@Test
 	public void getAuthUserNameTest(){
 		String name = "Test Name";

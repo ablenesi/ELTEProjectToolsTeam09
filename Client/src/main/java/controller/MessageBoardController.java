@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 import model.Message;
+import model.ViewConstraints;
 import view.MessageBoard;
 
 public class MessageBoardController implements ActionListener, KeyListener{
@@ -23,8 +24,8 @@ public class MessageBoardController implements ActionListener, KeyListener{
 			messageBoard.setMessage("");
 			Message messageToServet = null;
 			Message messageToDoc = null;
-			if(messageBoard.getUser().getUserName().equals("Public Chat")){
-				messageToServet = new Message("COMMON",mess);
+			if(messageBoard.getUser().getUserName().equals(ViewConstraints.PUBIC_USER_NAME)){
+				messageToServet = new Message(controller.getServerHandler().PUBLIC_USER_NAME,mess);
 			}else{
 				messageToServet = new Message(messageBoard.getUser().getUserName(),mess);
 				messageToDoc = new Message(controller.getModel().getAuthUser().getUserName(),mess);
@@ -48,11 +49,9 @@ public class MessageBoardController implements ActionListener, KeyListener{
 			sendMessage(messageBoard);
 		}
 	}
-
 	@Override
-	public void keyReleased(KeyEvent e) { }
-
+	public void keyReleased(KeyEvent e) {  }
 	@Override
-	public void keyTyped(KeyEvent e) { }
+	public void keyTyped(KeyEvent e) {	}
 
 }

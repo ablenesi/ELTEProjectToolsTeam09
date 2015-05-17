@@ -33,6 +33,7 @@ public class ServerHandler extends SwingWorker<Void, String>{
 	private static final String SEND_MESS_KEYWORD 	= "MES";
 	private static final String GET_DATA_KEYWORD 	= "UPD";
 	private static final String GET_LOGOUT_KEYWORD 	= "OUT";
+	public static final String PUBLIC_USER_NAME 	= "COMMON";
 	
 	private static final String	SEPARATOR			= ""+(char)37;
 	private static final String	SEPARATOR2			= ""+(char)38;
